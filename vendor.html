@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-US" class="vendor-page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Dashboard | EVENTORA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="vendor-page">
+  
+
+
+  <header class="vendor-header">
+    <a href="index.html" class="vendor-logo">EVENT<span>ORA</span></a>
+    <div class="vendor-user-info">
+      <span class="vendor-badge vendor-blue">Vendor</span>
+      <span>Welcome, Rahim Ahmed</span>
+      <a href="index.html" class="vendor-btn vendor-btn-small vendor-btn-light">Logout</a>
+      <a href="vendor-register.html" class="vendor-btn vendor-btn-small">Vendor Sign Up</a>
+    </div>
+  </header>
+
+  <nav class="vendor-topnav">
+    <button type="button" id="nav-vendorServicesSection" onclick="vendorShowSection('vendorServicesSection')">Manage Services</button>
+    <button type="button" id="nav-vendorProfitSection" onclick="vendorShowSection('vendorProfitSection')">Expense &amp; Profit</button>
+    <button type="button" id="nav-vendorChecklistSection" onclick="vendorShowSection('vendorChecklistSection')">Equipment Checklist</button>
+    <button type="button" id="nav-vendorPrepSection" onclick="vendorShowSection('vendorPrepSection')">Booking Preparation</button>
+  </nav>
+
+
+
+
+  <main class="vendor-container"> <!-- main container for all the sections -->
+
+    <!-- MANAGE SERVICES PAGE WITH CRUD AND SEARCH OPERATIONS -->
+    <section id="vendorServicesSection" class="vendor-page-section">  <!-- id use the servicessection function and class page section is class used in css to hide it-->
+      <h2 class="vendor-page-title">Manage Services</h2>
+      <p class="vendor-page-subtitle">Add new services, edit the details, remove  and search the catalogue.</p>
+
+      <div id="vendorServiceMessage" class="vendor-message"></div>   <!-- an empty box where js will add services which is added, edited or removed -->
+
+
+
+      <!-- New Service Form with dropdown and buttons -->
+      <div class="vendor-row">   <!-- puuts colum side by side -->
+        <div class="vendor-col">
+          <div class="vendor-card">   <!-- white rounded box -->
+            <h3 id="vendorServiceFormTitle">New Service</h3>
+            <form id="vendorServiceForm" onsubmit="return vendorSaveService()">
+              <fieldset>
+                <legend>Service Details</legend>
+                <table class="vendor-form-table">
+                  <tr>
+                    <td><label for="vendorServiceTitle">Title:</label></td>
+                    <td>
+                      <input type="text" id="vendorServiceTitle" placeholder="Wedding Stage Decoration">          <!-- naming rule used by js function to show error in blank fiend or message -->
+                      <span class="vendor-error" id="vendorServiceTitleError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServicePrice">Base price:</label></td>
+                    <td>
+                      <input type="text" id="vendorServicePrice" placeholder="e.g. ৳20,000">
+                      <span class="vendor-error" id="vendorServicePriceError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServiceCategory">Category:</label></td>
+                    <td>
+                      <select id="vendorServiceCategory">
+                        <option value="">Select Category</option>
+                        <option value="Decoration">Decoration</option>
+                        <option value="Catering">Catering</option>
+                        <option value="Sound &amp; Lighting">Sound and Lighting</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Logistics">Logistics</option>
+                      </select>
+                      <span class="vendor-error" id="vendorServiceCategoryError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServiceDuration">Duration:</label></td>
+                    <td>
+                      <input type="text" id="vendorServiceDuration" placeholder="eg 5 hours">
+                      <span class="vendor-error" id="vendorServiceDurationError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServiceCapacity">Capacity:</label></td>
+                    <td>
+                      <input type="text" id="vendorServiceCapacity" placeholder="eg 300 guests">
+                      <span class="vendor-error" id="vendorServiceCapacityError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServiceRequirements">Requirements:</label></td>
+                    <td>
+                      <input type="text" id="vendorServiceRequirements" placeholder="eg Power outlet">
+                      <span class="vendor-error" id="vendorServiceRequirementsError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorServiceAvailability">Availability:</label></td>
+                    <td>
+                      <select id="vendorServiceAvailability">
+                        <option value="Available">Available</option>
+                        <option value="Booked">Booked</option>
+                      </select>
+                      <span class="vendor-error" id="vendorServiceAvailabilityError"></span>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" id="vendorServiceSaveButton" class="vendor-btn" value="Add Service">
+              <button type="button" class="vendor-btn vendor-btn-secondary" onclick="vendorResetServiceForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+
+
+         <!--My Service Box with search and filters by category and availability but no CRUD operations -->
+        <div class="vendor-col-wide">
+          <div class="vendor-card">
+            <h3>My services</h3>
+            <div class="vendor-search-bar">
+              <input type="text" id="vendorServiceSearch" placeholder="Search by title, category or price..." onkeyup="vendorRenderServices()">
+              <select id="vendorServiceCategoryFilter" onchange="vendorRenderServices()">
+                <option value="All">All categories</option>
+                <option value="Decoration">Decoration</option>
+                <option value="Catering">Catering</option>
+                <option value="Sound &amp; Lighting">Sound &amp; Lighting</option>
+                <option value="Photography">Photography</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Logistics">Logistics</option>
+              </select>
+              <select id="vendorServiceAvailabilityFilter" onchange="vendorRenderServices()">
+                <option value="All">Any availability</option>
+                <option value="Available">Available</option>
+                <option value="Booked">Booked</option>
+              </select>
+            </div>
+            <p class="vendor-result-count" id="vendorServiceCount"></p>
+            <div class="vendor-table-wrapper">
+              <table class="vendor-data-table">
+                <thead>
+                  <tr><th>ID</th><th>Service</th><th>Category</th><th>Base Price</th><th>Duration</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="vendorServiceTableBody"></tbody>   <!-- Services will be dynamically added here -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+     <!--Expense and Profit Calculator part-->
+    <section id="vendorProfitSection" class="vendor-page-section">
+      <h2 class="vendor-page-title">Expense and Profit Calculator</h2>
+      <p class="vendor-page-subtitle">Calculate the profit from expenses and revenue.</p>
+
+      <div class="vendor-row">
+        <div class="vendor-col">
+          <div class="vendor-card">
+            <h3>Event amounts</h3>
+            <form onsubmit="return vendorCalculateProfit()">    <!--Pressing the button will run the calculateProfit function-->
+              <fieldset><legend>Enter Amounts</legend>
+                <table class="vendor-form-table">
+                  <tr>
+                    <td><label for="vendorProfitRevenue">Service revenue :</label></td>
+                    <td>
+                      <input type="number" id="vendorProfitRevenue" min="0" value="15000">   <!--No negative value no errorspan because any number is accepted-->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorProfitMaterial">Material cost :</label></td>
+                    <td>
+                      <input type="number" id="vendorProfitMaterial" min="0" value="3000">   
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorProfitWorker">Worker cost :</label></td>
+                    <td>
+                      <input type="number" id="vendorProfitWorker" min="0" value="2000">   
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorProfitTransport">Transport cost :</label></td>
+                    <td>
+                      <input type="number" id="vendorProfitTransport" min="0" value="1000">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorProfitOther">Other expenses :</label></td>
+                    <td>
+                      <input type="number" id="vendorProfitOther" min="0" value="500">
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" class="vendor-btn" value="Calculate Profit">
+            </form>
+          </div>
+        </div>
+        <div class="vendor-col">
+          <div class="vendor-card">
+            <h3>Your estimate</h3>
+            <div class="vendor-result-box" id="vendorProfitResult">Enter your event amounts and click Calculate Profit.</div>  <!--resultbox is used by js to calculate the amount by formula-->
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+     <!--Equipment Checklist Generator part-->
+    <section id="vendorChecklistSection" class="vendor-page-section">
+      <h2 class="vendor-page-title">Equipment Checklist Generator</h2>
+      <p class="vendor-page-subtitle">Choose the event type and equipment needed for the event</p>
+
+      <div id="vendorChecklistMessage" class="vendor-message"></div>
+
+      <div class="vendor-row">
+        <div class="vendor-col">
+          <div class="vendor-card">
+            <h3>Create checklist</h3>
+            <form id="vendorChecklistForm" onsubmit="return vendorSaveChecklist()">
+              <fieldset>
+                <legend>Checklist Details</legend>
+                <table class="vendor-form-table">
+                  <tr>
+                    <td><label for="vendorChecklistEventType">Event type:</label></td>  
+                    <td>
+                      <select id="vendorChecklistEventType" onchange="vendorShowEquipment()">    <!--Select event types and the matching checkbox changes-->
+                        <option value="">Select Event</option>
+                        <option value="Wedding Stage &amp; Reception">Wedding Stage and Reception</option>
+                        <option value="Birthday Bash">Birthday Bash</option>
+                        <option value="Corporate Conference">Corporate Conference</option>
+                        <option value="Concert / Live Sound">Concert</option>
+                        <option value="Cinematic Shoot">Photography and Videography</option>
+                      </select>
+                      <span class="vendor-error" id="vendorChecklistEventTypeError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Equipment:</td>
+                    <td>
+                      <p class="vendor-hint" id="vendorEquipmentHint">Please select an event type first.</p>     <!--Select type of event and js will hide the rest of the options-->
+
+                      <div id="vendorEquipmentWedding" class="vendor-type-fields">
+                        <input type="checkbox" id="vendorWedding1" name="vendorEquipmentWedding" value="Flower Arch &amp; Backdrop Framing">
+                        <label for="vendorWedding1" class="vendor-option-label">Flower Decoration and Backstage Framing</label><br>
+                        <input type="checkbox" id="vendorWedding2" name="vendorEquipmentWedding" value="LED Stage Spotlights &amp; Ambient Uplights">
+                        <label for="vendorWedding2" class="vendor-option-label">LED Stage Spotlights and Ambient Uplights</label><br>
+                        <input type="checkbox" id="vendorWedding3" name="vendorEquipmentWedding" value="Red Carpet &amp; Velvet VIP Ropes">
+                        <label for="vendorWedding3" class="vendor-option-label">Red Carpet and Velvet VIP Ropes</label><br>
+                      </div>
+                      <div id="vendorEquipmentBirthday" class="vendor-type-fields">
+                        <input type="checkbox" id="vendorBirthday1" name="vendorEquipmentBirthday" value="Theme Backdrop &amp; Arch Setup">
+                        <label for="vendorBirthday1" class="vendor-option-label">Theme Backdrop and Arch Setup</label><br>
+                        <input type="checkbox" id="vendorBirthday2" name="vendorEquipmentBirthday" value="Digital Party Speaker &amp; Wireless Mic">
+                        <label for="vendorBirthday2" class="vendor-option-label">Digital Party Speaker and Wireless Mic</label><br>
+                        <input type="checkbox" id="vendorBirthday3" name="vendorEquipmentBirthday" value="Cake Table Setup &amp; Spotlight">
+                        <label for="vendorBirthday3" class="vendor-option-label">Cake Table Setup and Spotlight</label><br>
+                      </div>
+                      <div id="vendorEquipmentCorporate" class="vendor-type-fields">
+                        <input type="checkbox" id="vendorCorporate1" name="vendorEquipmentCorporate" value="HD Projector &amp; Tripod Screen">
+                        <label for="vendorCorporate1" class="vendor-option-label">HD Projector &amp; Tripod Screen</label><br>
+                        <input type="checkbox" id="vendorCorporate2" name="vendorEquipmentCorporate" value="Podium &amp; Goose-neck Microphone">
+                        <label for="vendorCorporate2" class="vendor-option-label">Podium &amp; Goose-neck Microphone</label><br>
+                        <input type="checkbox" id="vendorCorporate3" name="vendorEquipmentCorporate" value="PA Speaker &amp; Audio Mixer">
+                        <label for="vendorCorporate3" class="vendor-option-label">PA Speaker &amp; Audio Mixer</label><br>
+                      </div>
+                      <div id="vendorEquipmentConcert" class="vendor-type-fields">
+                        <input type="checkbox" id="vendorConcert1" name="vendorEquipmentConcert" value="Dual Line-Array Speaker Stacks">
+                        <label for="vendorConcert1" class="vendor-option-label">Dual Line-Array Speaker Stacks</label><br>
+                        <input type="checkbox" id="vendorConcert2" name="vendorEquipmentConcert" value="Digital Audio Console Mixer">
+                        <label for="vendorConcert2" class="vendor-option-label">Digital Audio Console Mixer</label><br>
+                        <input type="checkbox" id="vendorConcert3" name="vendorEquipmentConcert" value="Stage Truss &amp; Moving Head Lights">
+                        <label for="vendorConcert3" class="vendor-option-label">Stage Truss &amp; Moving Head Lights</label><br>
+                      </div>
+                      <div id="vendorEquipmentCinematic" class="vendor-type-fields">
+                        <input type="checkbox" id="vendorCinematic1" name="vendorEquipmentCinematic" value="4K Cinema Camera Rig &amp; Lenses">
+                        <label for="vendorCinematic1" class="vendor-option-label">4K Cinema Camera Rig &amp; Lenses</label><br>
+                        <input type="checkbox" id="vendorCinematic2" name="vendorEquipmentCinematic" value="3-Axis Motorized Gimbal">
+                        <label for="vendorCinematic2" class="vendor-option-label">3-Axis Motorized Gimbal</label><br>
+                        <input type="checkbox" id="vendorCinematic3" name="vendorEquipmentCinematic" value="Softbox Studio LED Lights &amp; Stands">
+                        <label for="vendorCinematic3" class="vendor-option-label">Softbox Studio LED Lights &amp; Stands</label><br>
+                      </div>
+                      <span class="vendor-error" id="vendorChecklistEquipmentError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorChecklistQuantity">Quantity per item:</label></td>
+                    <td>
+                      <input type="number" id="vendorChecklistQuantity" min="1" placeholder="e.g 1,2,3">
+                      <span class="vendor-error" id="vendorChecklistQuantityError"></span>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" class="vendor-btn" value="Add to Checklist">
+              <button type="button" class="vendor-btn vendor-btn-secondary" onclick="vendorResetChecklistForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="vendor-col-wide">
+          <div class="vendor-card">
+            <h3>Saved checklist items</h3>
+            <div class="vendor-table-wrapper">
+              <table class="vendor-data-table">
+                <thead>
+                  <tr><th>Event type</th><th>Equipment</th><th>Quantity</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="vendorChecklistTableBody"></tbody>   <!-- Empty space which js will fill -->
+              </table>
+            </div>
+            <p class="vendor-hint">Mark an item as done when it is ready for the event.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Booking Preparation Planning part -->
+    <section id="vendorPrepSection" class="vendor-page-section">
+      <h2 class="vendor-page-title">Booking Preparation Planning</h2>
+      <p class="vendor-page-subtitle">Plan the preparation tasks of a booking and decide how many workers each task needs</p>
+
+      <div id="vendorPrepMessage" class="vendor-message"></div>
+
+      <div class="vendor-row">
+        <div class="vendor-col">
+          <div class="vendor-card">
+            <h3>Plan a task and select the workers</h3>
+            <form id="vendorPrepForm" onsubmit="return vendorSavePrepTask()">
+              <fieldset>
+                <legend>Task Details</legend>
+                <table class="vendor-form-table">
+                  <tr>
+                    <td><label for="vendorPrepBooking">Booking:</label></td>
+                    <td>
+                      <select id="vendorPrepBooking" onchange="vendorPreviewPrepEffort()"></select>   <!-- js will fill the booking list and dynamically change -->
+                      <span class="vendor-error" id="vendorPrepBookingError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorPrepTaskName">Task name:</label></td>
+                    <td>
+                      <input type="text" id="vendorPrepTaskName" placeholder="e.g. Stage setup, audio wiring">
+                      <span class="vendor-error" id="vendorPrepTaskNameError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorPrepWorkers">Workers:</label></td>
+                    <td>
+                      <input type="number" id="vendorPrepWorkers" placeholder="e.g. 4" min="1" max="50" onkeyup="vendorPreviewPrepEffort()" onchange="vendorPreviewPrepEffort()">
+                      <span class="vendor-error" id="vendorPrepWorkersError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="vendorPrepHours">Duration (hours):</label></td>
+                    <td>
+                      <input type="number" id="vendorPrepHours" placeholder="e.g. 3" min="1" max="48" onkeyup="vendorPreviewPrepEffort()" onchange="vendorPreviewPrepEffort()">
+                      <span class="vendor-error" id="vendorPrepHoursError"></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Priority:</td>
+                    <td>
+                      <input type="checkbox" id="vendorPrepPriority">
+                      <label for="vendorPrepPriority" class="vendor-option-label">High priority task</label>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <input type="submit" id="vendorPrepSaveButton" class="vendor-btn" value="Save Task">
+              <button type="button" class="vendor-btn vendor-btn-secondary" onclick="vendorResetPrepForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+        <div class="vendor-col">
+          <div class="vendor-card">
+            <h3>Time and workforce estimate</h3>
+            <div class="vendor-result-box" id="vendorPrepEstimate">Add task details to see the preparation estimate.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vendor-card">
+        <h3>Upcoming preparation tasks</h3>
+        <div class="vendor-table-wrapper">
+          <table class="vendor-data-table">
+            <thead>
+              <tr><th>Task ID</th><th>Booking / Event</th><th>Task Name</th><th>Workers</th><th>Est. Time</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="vendorPrepTableBody"></tbody>  <!-- Empty space for Upcoming preparation tasks details that js will fill -->
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="vendor-footer">
+    &copy; 2026 EVENTORA &middot; CSC Web Technologies
+  </footer>
+
+  <script src="js/vendor-data.js"></script>
+  <script src="js/vendor-common.js"></script>
+  <script src="js/vendor.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+    

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a Client account">
+  <title>Client Register | Event</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">Event<span>Management</span></a>
+    <div class="user-info">
+      <a href="login.html" class="btn btn-small btn-light">Login</a>
+      <a href="register.html" class="btn btn-small">Register</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <a href="index.html">Home</a>
+    <a href="index.html#events">Events</a>
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="index.html#contact">Contact Us</a>
+  </nav>
+
+  <main class="container">
+    <div class="auth-box wide">
+      <div class="card">
+        <h2 class="page-title">Create your client account</h2>
+        <p class="page-subtitle">Fields marked * are required.</p>
+
+        <div id="registerMessage" class="message"></div>
+
+        <form id="registerForm" action="login.html" method="get" onsubmit="return validateRegister()">
+
+          <fieldset>
+            <legend>Personal information</legend>
+            <table class="form-table">
+              <tr>
+                <td><label for="fullName">Full Name: *</label></td>
+                <td>
+                  <input type="text" id="fullName" name="fullName" placeholder="Your full name">
+                  <span class="error" id="fullNameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="email">Email: *</label></td>
+                <td>
+                  <input type="email" id="email" name="email" placeholder="you@example.com">
+                  <span class="error" id="emailError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="phone">Phone: *</label></td>
+                <td>
+                  <input type="tel" id="phone" name="phone" placeholder="11 digits, e.g. 01XXXXXXXXX">
+                  <span class="error" id="phoneError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>Gender: *</td>
+                <td>
+                  <input type="radio" id="genderMale" name="gender" value="Male">
+                  <label for="genderMale" class="option-label">Male</label>
+                  <input type="radio" id="genderFemale" name="gender" value="Female">
+                  <label for="genderFemale" class="option-label">Female</label>
+                  <input type="radio" id="genderOther" name="gender" value="Other">
+                  <label for="genderOther" class="option-label">Prefer not to say</label>
+                  <span class="error" id="genderError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="dob">Date of Birth: *</label></td>
+                <td>
+                  <input type="date" id="dob" name="dob">
+                  <span class="error" id="dobError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="address">Address: *</label></td>
+                <td>
+                  <input type="text" id="address" name="address" placeholder="Area and city, e.g. Gulshan, Dhaka">
+                  <span class="error" id="addressError"></span>
+                </td>
+              </tr>
+
+              <tr>
+                <td><label for="newUsername">Username: *</label></td>
+                <td>
+                  <input type="text" id="newUsername" name="newUsername" placeholder="At least 4 characters, no spaces">
+                  <span class="error" id="newUsernameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="newPassword">Password: *</label></td>
+                <td>
+                  <input type="password" id="newPassword" placeholder="At least 8 characters with a digit"
+                    onkeyup="showPasswordStrength()">
+                  <span class="hint" id="strengthText"></span>
+                  <span class="error" id="newPasswordError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="confirmPassword">Confirm Password: *</label></td>
+                <td>
+                  <input type="password" id="confirmPassword" placeholder="Type the password again">
+                  <span class="error" id="confirmPasswordError"></span>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+
+          <p>
+            <input type="checkbox" id="terms" name="terms" onchange="toggleRegisterButton()">
+            <label for="terms" class="option-label">I agree to the terms and conditions *</label>
+          </p>
+
+          <div class="form-buttons">
+            <input type="submit" id="registerButton" class="btn" value="Create Account" disabled>
+            <input type="reset" class="btn btn-secondary" value="Start Again" onclick="resetRegisterForm()">
+          </div>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Login here</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 &middot; Event Management System
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/client-register.js"></script>
+</body>
+
+</html>

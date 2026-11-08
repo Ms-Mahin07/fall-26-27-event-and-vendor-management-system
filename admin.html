@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EVENTORA Admin</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>EVENTORA</h2>
+
+        <button
+          id="nav-dashboard"
+          class="active"
+          onclick="showSection('dashboard')"
+        >
+          Dashboard
+        </button>
+        <button id="nav-users" onclick="showSection('users')">
+          User Management
+        </button>
+        <button id="nav-complaints" onclick="showSection('complaints')">
+          Complaints &amp; Disputes
+        </button>
+        <button id="nav-announcements" onclick="showSection('announcements')">
+          Announcements
+        </button>
+
+        <button onclick="window.location.href = 'index.html'">Logout</button>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h2 id="pageTitle">Admin Dashboard</h2>
+            <p id="pageSubtitle">Overview of your platform</p>
+          </div>
+
+          <div class="admin">
+            <div>
+              <b>Admin</b>
+              <small>Administrator</small>
+            </div>
+          </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section">
+          <h2>Welcome back, Admin!</h2>
+          <p class="muted">Here what's happening on EVENTORA today.</p>
+
+          <div class="stats">
+            <div class="stat">
+              <p>Total Users</p>
+              <h1>150</h1>
+            </div>
+
+            <div class="stat">
+              <p>Active Vendors</p>
+              <h1>35</h1>
+            </div>
+
+            <div class="stat">
+              <p>Open Complaints</p>
+              <h1 id="openCount">8</h1>
+            </div>
+
+            <div class="stat">
+              <p>Published Announcements</p>
+              <h1 id="publishedCount">4</h1>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Recent User Activity</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Role</th>
+                  <th>Activity</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Rahim Ahmed</td>
+                  <td>Vendor</td>
+                  <td>Account Created</td>
+                  <td>01 Nov 2026</td>
+                  <td><span class="pill green">#16A34A</span></td>
+                </tr>
+
+                <tr>
+                  <td>Nusrat Jahan</td>
+                  <td>Client</td>
+                  <td>Logged In</td>
+                  <td>01 Nov 2026</td>
+                  <td><span class="pill green">#16A34A</span></td>
+                </tr>
+
+                <tr>
+                  <td>Tanvir Hasan</td>
+                  <td>Vendor</td>
+                  <td>Account Updated</td>
+                  <td>31 Oct 2026</td>
+                  <td><span class="pill green">#16A34A</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="quick">
+            <div class="card">
+              <h3>User Account<br />Activity Monitor</h3>
+              <button onclick="showSection('users')">Manage Users</button>
+            </div>
+
+            <div class="card">
+              <h3>Complaint &amp; Dispute<br />Tracker</h3>
+              <button onclick="showSection('complaints')">
+                View Complaints
+              </button>
+            </div>
+
+            <div class="card">
+              <h3>Platform<br />Announcements</h3>
+              <button onclick="showSection('announcements')">
+                Manage Announcements
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- USER MANAGEMENT -->
+        <section id="users" class="section" style="display: none">
+          <div class="tabs">
+            <button class="tab active" onclick="showSection('users')">
+              Users
+            </button>
+            <button class="tab" onclick="showSection('complaints')">
+              Complaints &amp; Disputes
+            </button>
+            <button class="tab" onclick="showSection('announcements')">
+              Announcements
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="heading">
+              <h3>User Management</h3>
+              <button onclick="showUserForm()">＋ Add User</button>
+            </div>
+
+            <div id="userForm" class="form-row" style="display: none">
+              <input id="userName" placeholder="Full name" />
+              <input id="userEmail" placeholder="Email" />
+
+              <select id="userRole">
+                <option>Admin</option>
+                <option>Client</option>
+                <option>Vendor</option>
+                <option>Event Manager</option>
+              </select>
+
+              <button onclick="saveUser()">Save User</button>
+            </div>
+
+            <div class="filters">
+              <input
+                id="userSearch"
+                placeholder="Search by name or email..."
+                onkeyup="renderUsers()"
+              />
+
+              <select id="roleFilter" onchange="renderUsers()">
+                <option>All Roles</option>
+                <option>Admin</option>
+                <option>Client</option>
+                <option>Vendor</option>
+                <option>Event Manager</option>
+              </select>
+
+              <select id="statusFilter" onchange="renderUsers()">
+                <option>All Statuses</option>
+                <option>Active</option>
+                <option>Suspended</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Account Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="userRows"></tbody>
+              </table>
+            </div>
+
+            <p class="count" id="userCount"></p>
+          </div>
+        </section>
+
+        <!-- COMPLAINTS -->
+        <section id="complaints" class="section" style="display: none">
+          <div class="tabs">
+            <button class="tab" onclick="showSection('users')">Users</button>
+            <button class="tab active" onclick="showSection('complaints')">
+              Complaints &amp; Disputes
+            </button>
+            <button class="tab" onclick="showSection('announcements')">
+              Announcements
+            </button>
+          </div>
+
+          <div class="card">
+            <h3>Complaints &amp; Disputes</h3>
+
+            <input
+              id="complaintSearch"
+              class="search"
+              placeholder="⌕ Search complaints..."
+              onkeyup="renderComplaints()"
+            />
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Submitted By</th>
+                    <th>Subject</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="complaintRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ANNOUNCEMENTS -->
+        <section id="announcements" class="section" style="display: none">
+          <div class="tabs">
+            <button class="tab" onclick="showSection('users')">Users</button>
+            <button class="tab" onclick="showSection('complaints')">
+              Complaints &amp; Disputes
+            </button>
+            <button class="tab active" onclick="showSection('announcements')">
+              Announcements
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="heading">
+              <h3>Platform Announcements</h3>
+              <button onclick="showAnnouncementForm()">
+                ＋ Create Announcement
+              </button>
+            </div>
+
+            <div id="announcementForm" class="form-row" style="display: none">
+              <input id="announcementTitle" placeholder="Announcement title" />
+              <button onclick="addAnnouncement()">Save Announcement</button>
+            </div>
+
+            <input
+              id="announcementSearch"
+              class="search"
+              placeholder="⌕ Search announcements..."
+              onkeyup="renderAnnouncements()"
+            />
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="announcementRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US" class="vendor-page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create an EVENTORA vendor account">
+  <title>Vendor Sign Up  "EVENTORA"</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="vendor-page">
+
+  <header class="vendor-header">
+    <a href="index.html" class="vendor-logo">EVENT<span>ORA</span></a>
+    <div class="vendor-user-info">
+      <a href="login.html" class="vendor-btn vendor-btn-small vendor-btn-light">Login</a>
+      <a href="vendor-register.html" class="vendor-btn vendor-btn-small">Vendor Sign Up</a>
+    </div>
+  </header>
+
+  <main class="vendor-container">
+    <div class="vendor-auth-box vendor-wide">  <!-- keeps the form in the center -->
+      <div class="vendor-card">
+        <h2 class="vendor-page-title">Create your vendor account</h2>
+
+        <div id="vendorRegisterMessage" class="vendor-message"></div>
+
+        <form id="vendorRegisterForm" action="login.html" method="get" onsubmit="return vendorValidateRegister()">  <!-- password not  encripted as get method used  -->
+
+
+
+          
+          <fieldset>
+            <legend>Step 1 - Business details</legend>
+            <table class="vendor-form-table">
+              <tr>
+                <td><label for="vendorBusinessName" >Business name: </label></td>
+                <td>
+                  <input type="text" id="vendorBusinessName" name="vendorBusinessName" placeholder="e.g. Dream Event Solutions">
+                  <span class="vendor-error" id="vendorBusinessNameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorCategory">Business category: </label></td>
+                <td>
+                  <select id="vendorCategory" name="vendorCategory">
+                    <option value="">Select Category </option>
+                    <option value="Decoration">Decoration</option>
+                    <option value="Catering">Catering</option>
+                    <option value="Sound &amp; Lighting">Sound and Lighting</option>
+                    <option value="Photography">Photography</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Logistics">Logistics</option>
+                  </select>
+                  <span class="vendor-error" id="vendorCategoryError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorAddress">Business address: </label></td>
+                <td>
+                  <textarea id="vendorAddress" name="vendorAddress" rows="3" cols="20" placeholder="House, road, area, city"></textarea>
+                  <span class="vendor-error" id="vendorAddressError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorDescription">About your business:</label></td>
+                <td>
+                  <textarea id="vendorDescription" name="vendorDescription" rows="3" cols="20" placeholder="Describe your services and experience"></textarea>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+
+         
+          <fieldset>
+            <legend>Step 2 - Personal details</legend>
+            <table class="vendor-form-table">
+              <tr>
+                <td><label for="vendorFullName">Full name: </label></td>
+                <td>
+                  <input type="text" id="vendorFullName" name="vendorFullName" placeholder="Your full name">
+                  <span class="vendor-error" id="vendorFullNameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorEmail">Email: </label></td>
+                <td>
+                  <input type="email" id="vendorEmail" name="vendorEmail" placeholder="rahim@example.com">
+                  <span class="vendor-error" id="vendorEmailError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorPhone">Phone: </label></td>
+                <td>
+                  <input type="tel" id="vendorPhone" name="vendorPhone"  placeholder="01712345678">
+                  <span class="vendor-error" id="vendorPhoneError"></span>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+
+         
+          <fieldset>
+            <legend>Step 3 - Login details</legend>
+            <table class="vendor-form-table">
+              <tr>
+                <td><label for="vendorNewUsername">Username: </label></td>
+                <td>
+                  <input type="text" id="vendorNewUsername" name="vendorNewUsername" placeholder="At least 4 characters">
+                  <span class="vendor-error" id="vendorNewUsernameError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorNewPassword">Password: </label></td>
+                <td>
+                  <input type="password" id="vendorNewPassword" placeholder="At least 8 characters with a digit">
+                  <span class="vendor-error" id="vendorNewPasswordError"></span>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vendorConfirmPassword">Confirm password: </label></td>
+                <td>
+                  <input type="password" id="vendorConfirmPassword" placeholder="Type the password again">
+                  <span class="vendor-error" id="vendorConfirmPasswordError"></span>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+
+         
+          <p>
+            <input type="checkbox" id="vendorTerms" name="vendorTerms" onchange="vendorToggleRegisterButton()"> <!--dhtml the button stays disabled until the box is ticked -->
+            <label for="vendorTerms" class="vendor-option-label">I agree to the EVENTORA vendor rules and terms </label>
+          </p>
+
+          <div class="vendor-form-buttons">
+            <input type="submit" id="vendorRegisterButton" class="vendor-btn" value="Create Vendor Account" disabled>
+            <input type="reset" class="vendor-btn vendor-btn-secondary" value="Start Again" onclick="vendorResetRegisterForm()">
+          </div>
+        </form>
+
+        <p class="vendor-auth-switch">Already have an account? <a href="login.html">Login here</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="vendor-footer">
+    &copy; 2026 EVENTORA &middot; CSC Web Technologies
+  </footer>
+
+  <script src="js/vendor-data.js"></script>
+  <script src="js/vendor-common.js"></script>
+  <script src="js/vendor-register.js"></script>
+</body>
+</html>

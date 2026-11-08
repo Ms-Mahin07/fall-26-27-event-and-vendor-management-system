@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | EVENTORA</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <a href="index.html" class="logo">EVENTORA</a>
+
+      <div class="user-info">
+        <a href="register.html" class="btn">Register</a>
+      </div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="topnav">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <!-- LOGIN -->
+    <main class="container">
+      <section class="login-section">
+        <div class="login-card">
+          <div class="login-heading">
+            <h1>Welcome Back!</h1>
+            <p>Login to your EVENTORA account</p>
+          </div>
+
+          <form id="loginForm" onsubmit="return validateLogin();">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              required
+            />
+
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              required
+            />
+
+            <div class="login-options">
+              <label>
+                <input type="checkbox" id="remember" />
+                Remember me
+              </label>
+
+              <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn login-btn">Login</button>
+          </form>
+
+          <p class="auth-switch">
+            Don't have an account?
+            <a href="register.html">Register here</a>
+          </p>
+          <br /><br />
+          <div class="demo-accounts">
+            <h3>Demo Accounts</h3>
+            <p>Choose an account to explore EVENTORA.</p>
+
+            <table>
+              <tr>
+                <td>Admin</td>
+                <td>admin@eventora.com</td>
+                <td>
+                  <button
+                    type="button"
+                    onclick="fillDemo('admin@eventora.com', 'admin1234')"
+                  >
+                    Use
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Client</td>
+                <td>client@eventora.com</td>
+                <td>
+                  <button
+                    type="button"
+                    onclick="fillDemo('client@eventora.com', 'client1234')"
+                  >
+                    Use
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Vendor</td>
+                <td>vendor@eventora.com</td>
+                <td>
+                  <button
+                    type="button"
+                    onclick="fillDemo('vendor@eventora.com', 'vendor1234')"
+                  >
+                    Use
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Event Manager</td>
+                <td>manager@eventora.com</td>
+                <td>
+                  <button
+                    type="button"
+                    onclick="fillDemo('manager@eventora.com', 'manager1234')"
+                  >
+                    Use
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">&copy; 2026 EVENTORA. All rights reserved.</footer>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

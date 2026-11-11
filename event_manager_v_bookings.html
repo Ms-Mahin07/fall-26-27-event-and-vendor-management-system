@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EventFlow Event Manager">
+  <title>Vendor Bookings | EventFlow</title>
+  <link rel="stylesheet" href="css/em_style.css">
+</head>
+<body>
+  <header class="header">
+    <a href="event_manager_dashboard.html" class="logo">Event<span>Flow</span></a>
+    <div class="user-info">
+      <span class="badge manager">Event Manager</span>
+      <span id="welcomeUser">Welcome, Event Manager</span>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <a href="event_manager_dashboard.html">Dashboard</a>
+    <a href="event_manager_m_events.html">Manage Events</a>
+    <a href="event_manager_m_venues.html">Manage Venues</a>
+    <a href="event_manager_v_bookings.html" class="active">Vendor Bookings</a>
+  </nav>
+
+  <main class="container">
+    <section id="vendorSection" class="page-section">
+      <h2 class="page-title">Vendor Booking Management</h2>
+      <p class="page-subtitle">Manage bookings for events.</p>
+
+      <div id="vendorMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3 id="vendorFormTitle">Create Vendor Booking</h3>
+            <form id="vendorForm" onsubmit="return saveVendorBooking()">
+              <input type="hidden" id="vendorBookingId">
+              <fieldset>
+                <legend>Booking Details</legend>
+                <table class="form-table">
+                  <tr><td><label for="bookingEvent">Event:</label></td><td><select id="bookingEvent"><option value="">-- Select Event --</option></select><span class="error" id="bookingEventError"></span></td></tr>
+                  <tr><td><label for="vendorName">Vendor name:</label></td><td><input type="text" id="vendorName" placeholder="e.g. Royal Catering"><span class="error" id="vendorNameError"></span></td></tr>
+                  <tr><td><label for="vendorService">Service:</label></td><td><select id="vendorService"><option value="">-- Select Service --</option><option value="Catering">Catering</option><option value="Photography">Photography</option><option value="Decoration">Decoration</option><option value="Sound and Lighting">Sound and Lighting</option><option value="Entertainment">Entertainment</option><option value="Transportation">Transportation</option><option value="Other">Other</option></select><span class="error" id="vendorServiceError"></span></td></tr>
+                  <tr><td><label for="vendorDate">Booking date:</label></td><td><input type="date" id="vendorDate"><span class="error" id="vendorDateError"></span></td></tr>
+                  <tr><td><label for="vendorCost">Booking cost (Tk):</label></td><td><input type="number" id="vendorCost" min="0" placeholder="e.g. 25000"><span class="error" id="vendorCostError"></span></td></tr>
+                  <tr><td><label for="vendorContact">Vendor contact:</label></td><td><input type="text" id="vendorContact" placeholder="Phone or email"><span class="error" id="vendorContactError"></span></td></tr>
+                  <tr><td><label for="vendorStatus">Booking status:</label></td><td><select id="vendorStatus"><option value="Booked">Booked</option><option value="Pending">Pending</option><option value="Cancelled">Cancelled</option></select></td></tr>
+                </table>
+              </fieldset>
+              <input type="submit" id="vendorSaveButton" class="btn" value="Add Booking">
+              <button type="button" class="btn btn-secondary" onclick="resetVendorForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Vendor Booking List</h3>
+            <div class="search-bar">
+              <input type="text" id="vendorSearch" placeholder="Search by event, vendor or service..." onkeyup="renderVendorBookings()">
+              <select id="vendorStatusFilter" onchange="renderVendorBookings()"><option value="All">All statuses</option><option value="Booked">Booked</option><option value="Pending">Pending</option><option value="Cancelled">Cancelled</option></select>
+            </div>
+            <p class="result-count" id="vendorCount"></p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead><tr><th>ID</th><th>Event</th><th>Vendor</th><th>Service</th><th>Booking Date</th><th>Cost (Tk)</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="vendorTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 EventFlow &middot; Event Management System
+  </footer>
+
+  <!-- Keep your existing JavaScript file here. It should define the page functions
+       used by the inline handlers, such as showSection(), saveEvent(), renderEvents(),
+       saveVenue(), renderVenues(), saveVendorBooking(), and renderVendorBookings(). -->
+  <script src="js/script.js"></script>
+</body>
+</html>

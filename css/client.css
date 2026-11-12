@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: gainsboro;
+    color: black;
+}
+
+.header {
+    background-color: darkblue;
+    color: white;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo span {
+    color: #f4b942;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.user-info a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.user-info a:hover {
+    color: #f4b942;
+}
+
+.btn {
+    background-color: #263b5e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #1b2d49;
+}
+
+.btn-small {
+    padding: 7px 14px;
+}
+
+.btn-light {
+    background-color: #526987;
+}
+
+.btn-light:hover {
+    background-color: #405673;
+}
+
+.btn-secondary {
+    background-color: #777;
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+}
+
+.btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+.container {
+    width: 85%;
+    max-width: 1100px;
+    margin: 35px auto;
+}
+
+.auth-box {
+    width: 100%;
+    margin: auto;
+}
+
+.auth-box.wide {
+    max-width: 850px;
+}
+
+.card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.page-title {
+    color: #263b5e;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    color: #263b5e;
+    font-weight: bold;
+    padding: 0 10px;
+    font-size: 17px;
+}
+
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.form-table td:first-child {
+    width: 30%;
+    font-weight: bold;
+    color: #444;
+}
+
+.form-table label {
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #263b5e;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.option-label {
+    font-size: 14px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.error {
+    display: block;
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.hint {
+    display: block;
+    color: #267342;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.message {
+    margin-bottom: 15px;
+    color: #263b5e;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    font-family: Arial, sans-serif;
+}
+
+.switch-loging {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.switch-loging a {
+    color: #263b5e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.switch-loging a:hover {
+    text-decoration: underline;
+}
+
+
+.footer {
+    background-color: #263b5e;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+    font-size: 13px;
+}
+
+
+@media screen and (max-width: 600px) {
+
+    .header {
+        padding: 15px;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .form-table,
+    .form-table tbody,
+    .form-table tr,
+    .form-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .form-table td {
+        padding: 5px 0;
+    }
+
+    .form-table td:first-child {
+        width: 100%;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+    .form-buttons .btn {
+        width: 100%;
+    }
+
+}

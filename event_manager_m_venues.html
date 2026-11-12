@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EventFlow Event Manager">
+  <title>Manage Venues | EventFlow</title>
+  <link rel="stylesheet" href="css/em_style.css">
+</head>
+<body>
+  <header class="header">
+    <a href="event_manager_dashboard.html" class="logo">Event<span>Flow</span></a>
+    <div class="user-info">
+      <span class="badge manager">Event Manager</span>
+      <span id="welcomeUser">Welcome, Event Manager</span>
+      <a href="index.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <a href="event_manager_dashboard.html">Dashboard</a>
+    <a href="event_manager_m_events.html">Manage Events</a>
+    <a href="event_manager_m_venues.html" class="active">Manage Venues</a>
+    <a href="event_manager_v_bookings.html">Vendor Bookings</a>
+  </nav>
+
+  <main class="container">
+    <section id="venueSection" class="page-section">
+      <h2 class="page-title">Venue Management</h2>
+      <p class="page-subtitle">Manage and search for event venues.</p>
+
+      <div id="venueMessage" class="message"></div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <h3 id="venueFormTitle">Add New Venue</h3>
+            <form id="venueForm" onsubmit="return saveVenue()">
+              <input type="hidden" id="venueId">
+              <fieldset>
+                <legend>Venue Details</legend>
+                <table class="form-table">
+                  <tr><td><label for="venueName">Venue name:</label></td><td><input type="text" id="venueName" placeholder="e.g. Grand Hall"><span class="error" id="venueNameError"></span></td></tr>
+                  <tr><td><label for="venueLocation">Location:</label></td><td><input type="text" id="venueLocation" placeholder="Venue address or area"><span class="error" id="venueLocationError"></span></td></tr>
+                  <tr><td><label for="venueCapacity">Capacity:</label></td><td><input type="number" id="venueCapacity" min="1" placeholder="Maximum guest capacity"><span class="error" id="venueCapacityError"></span></td></tr>
+                  <tr><td><label for="venueType">Venue type:</label></td><td><select id="venueType"><option value="">-- Select Type --</option><option value="Indoor">Indoor</option><option value="Outdoor">Outdoor</option><option value="Conference Hall">Conference Hall</option><option value="Restaurant">Restaurant</option><option value="Other">Other</option></select><span class="error" id="venueTypeError"></span></td></tr>
+                  <tr><td><label for="venuePrice">Rental price (Tk):</label></td><td><input type="number" id="venuePrice" min="0" placeholder="e.g. 30000"><span class="error" id="venuePriceError"></span></td></tr>
+                  <tr><td><label for="venueContact">Contact:</label></td><td><input type="text" id="venueContact" placeholder="Phone or contact person"><span class="error" id="venueContactError"></span></td></tr>
+                </table>
+              </fieldset>
+              <input type="submit" id="venueSaveButton" class="btn" value="Add Venue">
+              <button type="button" class="btn btn-secondary" onclick="resetVenueForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-wide">
+          <div class="card">
+            <h3>Venue List</h3>
+            <div class="search-bar">
+              <input type="text" id="venueSearch" placeholder="Search by venue name, location or type..." onkeyup="renderVenues()">
+              <select id="venueTypeFilter" onchange="renderVenues()"><option value="All">All venue types</option><option value="Indoor">Indoor</option><option value="Outdoor">Outdoor</option><option value="Conference Hall">Conference Hall</option><option value="Restaurant">Restaurant</option><option value="Other">Other</option></select>
+            </div>
+            <p class="result-count" id="venueCount"></p>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead><tr><th>ID</th><th>Venue</th><th>Location</th><th>Capacity</th><th>Type</th><th>Rental Price (Tk)</th><th>Contact</th><th>Actions</th></tr></thead>
+                <tbody id="venueTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 EventFlow &middot; Event Management System
+  </footer>
+
+</body>
+</html>

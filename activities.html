@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Customer area of the Event and Vendor Management System">
+  <title>Activities and Event Management | EVENTORA</title>
+  <link rel="stylesheet" href="client.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">EVENT<span>ORA</span></a>
+    <div class="user-info">
+      <span class="badge customer">Customer</span>
+      <span>Welcome, Customer Name</span>
+      <a href="login.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
+    <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
+      Selection</button>
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+      Management</button>
+  </nav>
+
+  <main class="container">
+    <section class="page-section">
+      <h2 class="page-title">Activities and Event Services</h2>
+      <p class="page-subtitle">Select and manage the additional activities and equipment required for your event.</p>
+      <div id="activityMessage" class="message"></div>
+
+      <div class="card">
+        <h3>Available Activities and Services</h3>
+        <div class="row">
+          <div class="col">
+            <div class="card"><img src="image/theme.jpg" alt="Theme-based event decoration" class="feature-image">
+              <h3>Theme Decoration</h3>
+              <p>Decoration based on your selected event theme.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/photography.jpg" alt="Event photography" class="feature-image">
+              <h3>Photography</h3>
+              <p>Photographer service for event moments.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/videograpphy.jpg" alt="Event videography" class="feature-image">
+              <h3>Videography</h3>
+              <p>Video coverage of your event.</p>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card"><img src="image/kids.jpg" alt="Kids playing Zone" class="feature-image">
+              <h3>Kids playing Zone</h3>
+              <p>Dedicated space for kids entertainment.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/sound.jpg" alt="Event Sound System" class="feature-image">
+              <h3>Sound System</h3>
+              <p>Sound Microphone and Media coverage.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/led.jpg" alt="LED screen at an event" class="feature-image">
+              <h3>LED Screen</h3>
+              <p>LED display and screen setup.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/cake.jpg" alt="Celebration cake" class="feature-image">
+              <h3>Cake</h3>
+              <p>Custom cake for your celebration.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/stall.jpg" alt="Event food stalls" class="feature-image">
+              <h3>Stalls</h3>
+              <p>Choose Fuchka, Coffee or Live Pizza stalls.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="activityFormTitle">Add Activity or Service</h3>
+        <form id="activityForm" onsubmit="return saveActivity()">
+          <fieldset>
+            <legend>Activity Details</legend>
+            <table class="form-table">
+              <tr>
+                <td><label for="eventType">Select event:</label></td>
+                <td><select id="eventType">
+                    <option value="">Select event type</option>
+                    <option>Wedding</option>
+                    <option>Engagement</option>
+                    <option>Birthday</option>
+                    <option>Corporate party</option>
+                    <option>Convocation</option>
+                    <option>Anniversary</option>
+                    <option>Other</option>
+                  </select><span class="error" id="eventTypeError"></span></td>
+              </tr>
+              <tr>
+                <td><label for="transportation">Transportation Category:</label></td>
+                <td>
+                  <input type="checkbox" id="activities" value="activities">Theme Decoration
+                  <input type="checkbox" id="activities" value="activities">Photography
+                  <input type="checkbox" id="activities" value="activities">Videography
+                  <input type="checkbox" id="activities" value="activities">Kids playing Zone
+                  <br>
+                  <input type="checkbox" id="activities" value="activities">Sound System
+                  <input type="checkbox" id="activities" value="activities">LED Screen
+                  <input type="checkbox" id="activities" value="activities">Cake Customization
+                  <input type="checkbox" id="activities" value="activities">Stalls
+                  <input type="checkbox" id="activities" value="activities">Games
+                </td>
+              </tr>
+              <tr>
+                <td><label for="activityOption">Other Package:</label></td>
+                <td><input type="text" id="activityOption"
+                    placeholder="e.g. Floral theme, Different stall, Premium package"></td>
+              </tr>
+              <tr>
+                <td><label for="activityDate">Required Date:</label></td>
+                <td><input type="date" id="activityDate"></td>
+              </tr>
+              <tr>
+                <td><label for="activityQuantity">Quantity / Duration:</label></td>
+                <td><input type="text" id="activityQuantity" placeholder="e.g. 1 set, 4 hours"></td>
+              </tr>
+              <tr>
+                <td><label for="activityNote">Special Requirements:</label></td>
+                <td><textarea id="activityNote" rows="3" placeholder="Describe your requirements"></textarea></td>
+              </tr>
+            </table>
+          </fieldset>
+          <input type="hidden" id="editingActivityId">
+          <input type="submit" id="activitySaveButton" class="btn" value="Add Selection">
+          <button type="button" class="btn btn-secondary" onclick="resetActivityForm()">Clear Form</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>My Selected Activities</h3>
+        <div class="search-bar"><input type="text" id="activitySearch" placeholder="Search selected service..."
+            onkeyup="renderActivities()"><select id="activityFilter" onchange="renderActivities()">
+            <option value="All">All services</option>
+            <option>Theme Decoration</option>
+            <option>Photography</option>
+            <option>Videography</option>
+            <option>Sound System</option>
+            <option>LED Screen</option>
+            <option>Cake</option>
+            <option>Stalls</option>
+          </select></div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Event</th>
+                <th>Service</th>
+                <th>Option</th>
+                <th>Date</th>
+                <th>Quantity / Duration</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/activities.js"></script>
+
+  <footer class="footer">
+    &copy; 2026 EventEase &middot; Event and Vendor Management System
+  </footer>
+</body>
+
+</html>

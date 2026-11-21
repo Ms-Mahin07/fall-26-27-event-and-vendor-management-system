@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Customer area of the Event and Vendor Management System">
+  <title>Transportation Booking | EVENTORA</title>
+  <link rel="stylesheet" href="client.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">EVENT<span>ORA</span></a>
+    <div class="user-info">
+      <span class="badge customer">Customer</span>
+      <span>Welcome, Customer Name</span>
+      <a href="login.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
+    <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
+      Selection</button>
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+      Management</button>
+  </nav>
+
+  <main class="container">
+    <section class="page-section">
+      <h2 class="page-title">Transportation Management</h2>
+      <p class="page-subtitle">Book transportation for your event and manage your bookings.</p>
+      <div id="transportMessage" class="message"></div>
+
+      <div class="card">
+        <h3>Available Transportation</h3>
+        <div class="row">
+          <div class="col">
+            <div class="card"><img src="image/micro.jpg" alt="Microbus" class="feature-image">
+              <h3>Microvan</h3>
+              <p>Suitable for group transportation and guest pickup.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/private.jpg" alt="Private car" class="feature-image">
+              <h3>Private Car</h3>
+              <p>Private travel for family members or special guests like BRIDE or GROOM.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card"><img src="image/bus.jpg" alt="Bus" class="feature-image">
+              <h3>Bus</h3>
+              <p>Suitable for large or multiple group transportation and guest pickup.</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card"><img src="image/ghora.jpg" alt="ghorar gari" class="feature-image">
+              <h3>Ghorar Gari</h3>
+              <p>Private travel for special persons like BRIDE or GROOM.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="transportFormTitle">Book Transportation</h3>
+        <form id="transportForm" onsubmit="return saveTransportBooking()">
+          <fieldset>
+            <legend>Booking Details</legend>
+            <table class="form-table">
+              <tr>
+                <td><label for="eventType">Select event:</label></td>
+                <td><select id="eventType">
+                    <option value="">Select event type</option>
+                    <option>Wedding</option>
+                    <option>Engagement</option>
+                    <option>Birthday</option>
+                    <option>Corporate party</option>
+                    <option>Convocation</option>
+                    <option>Anniversary</option>
+                    <option>Other</option>
+                  </select><span class="error" id="eventTypeError"></span></td>
+              </tr>
+              <tr>
+                <td><label for="transportation">Transportation Category:</label></td>
+                <td>
+                  <input type="checkbox" id="transportation" value="transportation">Micro Van
+                  <input type="checkbox" id="transportation" value="transportation">Private Car
+                  <input type="checkbox" id="transportation" value="transportation">Bus
+                  <input type="checkbox" id="transportation" value="transportation">Ghorar Gari
+                </td>
+              </tr>
+              <tr>
+                <td><label for="vehicleQuantity">Number of Vehicles:</label></td>
+                <td><input type="number" id="vehicleQuantity" min="1" value="1"></td>
+              </tr>
+              <tr>
+                <td><label for="pickupDate">Pickup Date:</label></td>
+                <td><input type="date" id="pickupDate"></td>
+              </tr>
+              <tr>
+                <td><label for="pickupTime">Pickup Time:</label></td>
+                <td><input type="time" id="pickupTime"></td>
+              </tr>
+              <tr>
+                <td><label for="pickupLocation">Pickup Location:</label></td>
+                <td><input type="text" id="pickupLocation" placeholder="Pickup address"></td>
+              </tr>
+              <tr>
+                <td><label for="dropLocation">Drop-off Location:</label></td>
+                <td><input type="text" id="dropLocation" placeholder="Destination address"></td>
+              </tr>
+              <tr>
+                <td><label for="transportNote">Additional Note:</label></td>
+                <td><textarea id="transportNote" rows="3" placeholder="Extra requirements"></textarea></td>
+              </tr>
+            </table>
+          </fieldset>
+          <input type="hidden" id="editingTransportId">
+          <input type="submit" id="transportSaveButton" class="btn" value="Book Transportation">
+          <button type="button" class="btn btn-secondary" onclick="resetTransportForm()">Clear Form</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>My Transportation Bookings</h3>
+        <div class="search-bar"><input type="text" id="transportSearch" placeholder="Search vehicle or location..."
+            onkeyup="renderTransportBookings()"><select id="transportStatusFilter" onchange="renderTransportBookings()">
+            <option value="All">All statuses</option>
+            <option>Pending</option>
+            <option>Confirmed</option>
+            <option>Cancelled</option>
+          </select></div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Event</th>
+                <th>Vehicle</th>
+                <th>Quantity</th>
+                <th>Date & Time</th>
+                <th>Pickup</th>
+                <th>Drop-off</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transportTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/transportation.js"></script>
+
+  <footer class="footer">
+    &copy; 2026 EventEase &middot; Event and Vendor Management System
+  </footer>
+</body>
+
+</html>

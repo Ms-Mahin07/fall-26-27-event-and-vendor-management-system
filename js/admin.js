@@ -1,107 +1,12 @@
-// Sample data
-
-let users = [
-  {
-    id: 1,
-    name: "Rahim Ahmed",
-    email: "rahim@example.com",
-    role: "Vendor",
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Nusrat Jahan",
-    email: "nusrat@example.com",
-    role: "Client",
-    status: "Active",
-  },
-  {
-    id: 3,
-    name: "Tanvir Hasan",
-    email: "tanvir@example.com",
-    role: "Vendor",
-    status: "Suspended",
-  },
-  {
-    id: 4,
-    name: "Sadia Islam",
-    email: "sadia@example.com",
-    role: "Client",
-    status: "Active",
-  },
+const sections = [
+  "dashboard",
+  "users",
+  "complaints",
+  "announcements",
+  "vendorVerification",
 ];
 
-let complaints = [
-  {
-    id: "C001",
-    name: "Rahim Ahmed",
-    subject: "Delayed Vendor Service",
-    priority: "High",
-    status: "Open",
-  },
-  {
-    id: "C002",
-    name: "Nusrat Jahan",
-    subject: "Payment Issue",
-    priority: "Medium",
-    status: "Open",
-  },
-  {
-    id: "C003",
-    name: "Tanvir Hasan",
-    subject: "Account Dispute",
-    priority: "Low",
-    status: "Closed",
-  },
-];
-
-let announcements = [
-  { id: "A001", title: "Scheduled Maintenance", status: "Published" },
-  { id: "A002", title: "New Vendor Guidelines", status: "Published" },
-];
-
-let sections = ["dashboard", "users", "complaints", "announcements"];
-
-// Navigation
-
-function showSection(id) {
-  for (let i = 0; i < sections.length; i++) {
-    document.getElementById(sections[i]).style.display =
-      sections[i] === id ? "block" : "none";
-
-    let nav = document.getElementById("nav-" + sections[i]);
-
-    if (nav != null) {
-      nav.className = sections[i] === id ? "active" : "";
-    }
-  }
-
-  let titles = {
-    dashboard: "Admin Dashboard",
-    users: "Admin Management",
-    complaints: "Admin Management",
-    announcements: "Admin Management",
-  };
-
-  document.getElementById("pageTitle").innerHTML = titles[id];
-
-  document.getElementById("pageSubtitle").innerHTML =
-    id === "dashboard"
-      ? "Overview of your platform"
-      : "Manage users, complaints, and platform announcements";
-
-  renderUsers();
-  renderComplaints();
-  renderAnnouncements();
-}
-
-// Remove an array element
-
-function removeAt(list, index) {
-  return list.slice(0, index).concat(list.slice(index + 1));
-}
-
-// USER MANAGEMENT
+let selectedVendorIndex = -1;
 
 function renderUsers() {
   let keyword = document.getElementById("userSearch").value.toLowerCase();
@@ -170,6 +75,10 @@ function renderUsers() {
     "Showing " + shown + " of " + users.length + " users";
 }
 
+function removeAt(list, index) {
+  return list.slice(0, index).concat(list.slice(index + 1));
+}
+
 // Add user
 
 function showUserForm() {
@@ -231,6 +140,230 @@ function deleteUser(index) {
   renderUsers();
 }
 
+// VENDOR VERIFICATION
+
+function renderVendors() {
+  let keyword = document.getElementById("vendorSearch").value.toLowerCase();
+  let filter = document.getElementById("vendorStatusFilter").value;
+
+  let rows = "";
+
+  let pending = 0;
+  let approved = 0;
+  let rejected = 0;
+
+  for (let i = 0; i < vendorUsers.length; i++) {
+    let v = vendorUsers[i];
+
+    // Count verification statuses
+    if (v.verificationStatus === "Pending") {
+      pending++;
+    }
+
+    if (v.verificationStatus === "Approved") {
+      approved++;
+    }
+
+    if (v.verificationStatus === "Rejected") {
+      rejected++;
+    }
+
+    // Search vendor and business names
+    let matches =
+      v.name.toLowerCase().indexOf(keyword) !== -1 ||
+      v.businessName.toLowerCase().indexOf(keyword) !== -1;
+
+    // Apply status filter
+    if (matches && (filter === "All" || v.verificationStatus === filter)) {
+      let color = "pending-status";
+
+      if (v.verificationStatus === "Approved") {
+        color = "approved-status";
+      }
+
+      if (v.verificationStatus === "Rejected") {
+        color = "rejected-status";
+      }
+
+      rows += "<tr>";
+
+      rows += "<td>" + v.id + "</td>";
+      rows += "<td>" + v.businessName + "</td>";
+      rows += "<td>" + v.name + "</td>";
+      rows += "<td>" + v.category + "</td>";
+      rows += "<td>" + v.status + "</td>";
+
+      rows +=
+        "<td><span class='verify-pill " +
+        color +
+        "'>" +
+        v.verificationStatus +
+        "</span></td>";
+
+      rows += "<td>";
+
+      rows +=
+        "<button class='action' onclick='viewVendor(" +
+        i +
+        ")'>Verify</button>";
+
+      rows += "</td>";
+
+      rows += "</tr>";
+    }
+  }
+
+  if (rows === "") {
+    rows = "<tr><td colspan='7'>No vendors found.</td></tr>";
+  }
+
+  document.getElementById("vendorRows").innerHTML = rows;
+}
+
+// View selected vendor
+
+function viewVendor(index) {
+  selectedVendorIndex = index;
+
+  let v = vendorUsers[index];
+
+  document.getElementById("vendorDetails").style.display = "block";
+
+  document.getElementById("vendorInfo").innerHTML =
+    "<div class='vendor-info'>" +
+    "<p><strong>Vendor ID:</strong> " +
+    v.id +
+    "</p>" +
+    "<p><strong>Vendor Name:</strong> " +
+    v.name +
+    "</p>" +
+    "<p><strong>Business Name:</strong> " +
+    v.businessName +
+    "</p>" +
+    "<p><strong>Category:</strong> " +
+    v.category +
+    "</p>" +
+    "<p><strong>Email:</strong> " +
+    v.email +
+    "</p>" +
+    "<p><strong>Phone:</strong> " +
+    v.phone +
+    "</p>" +
+    "<p><strong>Address:</strong> " +
+    v.address +
+    "</p>" +
+    "<p><strong>Account Status:</strong> " +
+    v.status +
+    "</p>" +
+    "<p><strong>Verification Status:</strong> " +
+    v.verificationStatus +
+    "</p>" +
+    "</div>";
+
+  // Load saved checklist values
+  document.getElementById("businessInfo").checked = v.businessInfo;
+
+  document.getElementById("ownerInfo").checked = v.ownerInfo;
+
+  document.getElementById("contactInfo").checked = v.contactInfo;
+
+  document.getElementById("addressInfo").checked = v.addressInfo;
+
+  document.getElementById("verificationMessage").innerHTML = "";
+
+  // Show the details panel
+  document.getElementById("vendorDetails").scrollIntoView({
+    behavior: "smooth",
+  });
+}
+
+// Save checklist values
+
+function saveVendorChecklist() {
+  if (selectedVendorIndex === -1) {
+    return;
+  }
+
+  let v = vendorUsers[selectedVendorIndex];
+
+  v.businessInfo = document.getElementById("businessInfo").checked;
+
+  v.ownerInfo = document.getElementById("ownerInfo").checked;
+
+  v.contactInfo = document.getElementById("contactInfo").checked;
+
+  v.addressInfo = document.getElementById("addressInfo").checked;
+
+  document.getElementById("verificationMessage").innerHTML =
+    "Checklist saved successfully.";
+
+  renderVendors();
+}
+
+// Check whether all required information is verified
+
+function isVendorChecklistComplete(v) {
+  return (
+    v.businessInfo === true &&
+    v.ownerInfo === true &&
+    v.contactInfo === true &&
+    v.addressInfo === true
+  );
+}
+
+// Approve vendor
+
+function approveVendor() {
+  if (selectedVendorIndex === -1) {
+    return;
+  }
+
+  // Save current checkbox values first
+  let v = vendorUsers[selectedVendorIndex];
+
+  v.businessInfo = document.getElementById("businessInfo").checked;
+
+  v.ownerInfo = document.getElementById("ownerInfo").checked;
+
+  v.contactInfo = document.getElementById("contactInfo").checked;
+
+  v.addressInfo = document.getElementById("addressInfo").checked;
+
+  // All checklist items must be completed
+  if (!isVendorChecklistComplete(v)) {
+    document.getElementById("verificationMessage").innerHTML =
+      "Please complete all verification checklist items before approval.";
+
+    return;
+  }
+
+  v.verificationStatus = "Approved";
+
+  document.getElementById("verificationMessage").innerHTML =
+    "Vendor approved successfully.";
+
+  renderVendors();
+  viewVendor(selectedVendorIndex);
+}
+
+// Reject vendor
+
+function rejectVendor() {
+  if (selectedVendorIndex === -1) {
+    return;
+  }
+
+  let v = vendorUsers[selectedVendorIndex];
+
+  v.verificationStatus = "Rejected";
+
+  document.getElementById("verificationMessage").innerHTML =
+    "Vendor application rejected.";
+
+  renderVendors();
+  viewVendor(selectedVendorIndex);
+}
+
 // COMPLAINT MANAGEMENT
 
 function renderComplaints() {
@@ -260,7 +393,7 @@ function renderComplaints() {
         "</span></td>";
 
       rows +=
-        "<td><button class='action gray' onclick='closeComplaint(" +
+        "<td><button class='action' onclick='closeComplaint(" +
         i +
         ")'>Details / Close</button></td>";
 
@@ -314,7 +447,7 @@ function renderAnnouncements() {
       rows += "<td>";
 
       rows +=
-        "<button class='action gray' onclick='publishAnnouncement(" +
+        "<button class='action' onclick='publishAnnouncement(" +
         i +
         ")'>" +
         (a.status === "Published" ? "Unpublish" : "Publish") +
@@ -382,8 +515,7 @@ function deleteAnnouncement(index) {
   renderAnnouncements();
 }
 
-// Initial display
-
 renderUsers();
 renderComplaints();
 renderAnnouncements();
+renderVendors();

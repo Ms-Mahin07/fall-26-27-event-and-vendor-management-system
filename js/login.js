@@ -4,17 +4,21 @@ function fillDemo(email, password) {
 }
 
 function validateLogin() {
-  let email = document.getElementById("email").value;
+  let email = document.getElementById("email").value.trim().toLowerCase();
   let password = document.getElementById("password").value;
 
-  for (let i = 0; i < demoUsers.length; i++) {
-    if (demoUsers[i].email === email && demoUsers[i].password === password) {
-      saveCurrentUser(demoUsers[i]);
-      window.location.href = demoUsers[i].dashboard;
+  for (let i = 0; i < users.length; i++) {
+    if (
+      users[i].email.toLowerCase() === email &&
+      users[i].password === password &&
+      users[i].status === "Active"
+    ) {
+      saveCurrentUser(users[i]);
+      window.location.href = users[i].dashboard;
       return false;
     }
   }
 
-  alert("Invalid email or password!");
+  alert("Invalid email or password, or account is inactive!");
   return false;
 }

@@ -12,16 +12,20 @@ function logout() {
   window.location.href = "login.html";
 }
 
+function showSection(sectionId) {
+  for (let i = 0; i < sections.length; i++) {
+    let section = document.getElementById(sections[i]);
+    let navButton = document.getElementById("nav-" + sections[i]);
 
+    if (section != null) {
+      section.style.display = sections[i] === sectionId ? "block" : "none";
+    }
 
-
-
-
-
-
-
-
-
+    if (navButton != null) {
+      navButton.className = sections[i] === sectionId ? "active" : "";
+    }
+  }
+}
 
 //vendor common
 function vendorShowSection(sectionId) {
@@ -39,14 +43,10 @@ function vendorShowSection(sectionId) {
   }
 }
 
-
 //span clas error
 
 function vendorShowError(fieldId, message) {
   document.getElementById(fieldId + "Error").innerHTML = message;
-
-
-
 
   let field = document.getElementById(fieldId);
   if (field != null) {
@@ -59,7 +59,7 @@ function vendorClearError(fieldId) {
 
   let field = document.getElementById(fieldId);
   if (field != null) {
-    field.style.border = "";   // css black border
+    field.style.border = ""; // css black border
   }
 }
 
@@ -69,8 +69,6 @@ function vendorClearErrors(fieldIds) {
     vendorClearError(fieldIds[i]);
   }
 }
-
-
 
 function vendorShowMessage(boxId, text, type) {
   let box = document.getElementById(boxId);
@@ -83,11 +81,7 @@ function vendorHideMessage(boxId) {
   document.getElementById(boxId).style.display = "none";
 }
 
-
-
-
 //validations
-
 
 function vendorIsEmpty(value) {
   return value.trim() === "";
@@ -99,13 +93,13 @@ function vendorIsValidEmail(email) {
   let dotPosition = email.indexOf(".", atPosition);
 
   if (atPosition < 1) {
-    return false;                       // @
+    return false; // @
   }
   if (dotPosition < atPosition + 2) {
-    return false;                       // . after @
+    return false; // . after @
   }
   if (dotPosition === email.length - 1) {
-    return false;                      // . last character
+    return false; // . last character
   }
   return true;
 }
@@ -129,20 +123,19 @@ function vendorContainsText(text, keyword) {
   return String(text).toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
 }
 
-
-//array 
+//array
 
 // return new arry if item empty and slice remove item
 function vendorRemoveAt(list, index) {
   return list.slice(0, index).concat(list.slice(index + 1));
 }
 
-//makes new if v101 v102 
+//makes new if v101 v102
 function vendorNextId(prefix, list) {
   let biggest = 0;
   let digits = 3;
   for (let i = 0; i < list.length; i++) {
-    let numberText = list[i].id.slice(prefix.length + 1);   
+    let numberText = list[i].id.slice(prefix.length + 1);
     digits = numberText.length;
     if (Number(numberText) > biggest) {
       biggest = Number(numberText);

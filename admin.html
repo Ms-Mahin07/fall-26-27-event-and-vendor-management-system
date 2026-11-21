@@ -3,12 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EVENTORA Admin</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <title>Admin_Pannel</title>
+    <link rel="stylesheet" href="css/adminstyle.css" />
   </head>
   <body>
     <div class="layout">
       <aside class="sidebar">
+        <img
+          src="img/Eventora logo.png"
+          alt="Description of the image"
+          width="100"
+          height="100"
+        />
         <h2>EVENTORA</h2>
 
         <button
@@ -18,38 +24,46 @@
         >
           Dashboard
         </button>
+
         <button id="nav-users" onclick="showSection('users')">
           User Management
         </button>
+
+        <button
+          id="nav-vendorVerification"
+          onclick="showSection('vendorVerification')"
+        >
+          Vendor Verification
+        </button>
+
         <button id="nav-complaints" onclick="showSection('complaints')">
           Complaints &amp; Disputes
         </button>
+
         <button id="nav-announcements" onclick="showSection('announcements')">
           Announcements
         </button>
 
         <button onclick="window.location.href = 'index.html'">Logout</button>
       </aside>
-
       <main class="main">
         <header class="topbar">
           <div>
             <h2 id="pageTitle">Admin Dashboard</h2>
             <p id="pageSubtitle">Overview of your platform</p>
           </div>
-
           <div class="admin">
             <div>
-              <b>Admin</b>
+              <strong>Admin</strong>
               <small>Administrator</small>
             </div>
           </div>
         </header>
 
-        <!-- DASHBOARD -->
+        <!-- Dashboard -->
         <section id="dashboard" class="section">
-          <h2>Welcome back, Admin!</h2>
-          <p class="muted">Here what's happening on EVENTORA today.</p>
+          <h2>Welcome back,Admin</h2>
+          <p id="welcome">Here what's happening on EVENTORA today.</p>
 
           <div class="stats">
             <div class="stat">
@@ -77,41 +91,40 @@
             <h3>Recent User Activity</h3>
 
             <table>
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>Role</th>
-                  <th>Activity</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
+              <tr>
+                <th>User Name</th>
+                <th>Role</th>
+                <th>Activity</th>
+                <th>Date</th>
+              </tr>
 
-              <tbody>
-                <tr>
-                  <td>Rahim Ahmed</td>
-                  <td>Vendor</td>
-                  <td>Account Created</td>
-                  <td>01 Nov 2026</td>
-                  <td><span class="pill green">#16A34A</span></td>
-                </tr>
+              <tr>
+                <td>Mushfiqun Nobi Mahim</td>
+                <td>Admin</td>
+                <td>Account Created</td>
+                <td>01 Nov 2026</td>
+              </tr>
 
-                <tr>
-                  <td>Nusrat Jahan</td>
-                  <td>Client</td>
-                  <td>Logged In</td>
-                  <td>01 Nov 2026</td>
-                  <td><span class="pill green">#16A34A</span></td>
-                </tr>
+              <tr>
+                <td>Rafid Hossain Rafi</td>
+                <td>Vendor</td>
+                <td>Logged In</td>
+                <td>01 Nov 2026</td>
+              </tr>
 
-                <tr>
-                  <td>Tanvir Hasan</td>
-                  <td>Vendor</td>
-                  <td>Account Updated</td>
-                  <td>31 Oct 2026</td>
-                  <td><span class="pill green">#16A34A</span></td>
-                </tr>
-              </tbody>
+              <tr>
+                <td>Md Mahin Seikh</td>
+                <td>Client</td>
+                <td>Account Updated</td>
+                <td>31 Oct 2026</td>
+              </tr>
+
+              <tr>
+                <td>Farhan Abser</td>
+                <td>Event Manager</td>
+                <td>Account Updated</td>
+                <td>31 Oct 2026</td>
+              </tr>
             </table>
           </div>
 
@@ -119,6 +132,13 @@
             <div class="card">
               <h3>User Account<br />Activity Monitor</h3>
               <button onclick="showSection('users')">Manage Users</button>
+            </div>
+
+            <div class="card">
+              <h3>Vendor Verification<br />Checklist</h3>
+              <button onclick="showSection('vendorVerification')">
+                Verify Vendors
+              </button>
             </div>
 
             <div class="card">
@@ -137,11 +157,14 @@
           </div>
         </section>
 
-        <!-- USER MANAGEMENT -->
+        <!-- User managment -->
         <section id="users" class="section" style="display: none">
           <div class="tabs">
             <button class="tab active" onclick="showSection('users')">
               Users
+            </button>
+            <button class="tab" onclick="showSection('vendorVerification')">
+              Vendor Verification
             </button>
             <button class="tab" onclick="showSection('complaints')">
               Complaints &amp; Disputes
@@ -205,7 +228,6 @@
                     <th>Actions</th>
                   </tr>
                 </thead>
-
                 <tbody id="userRows"></tbody>
               </table>
             </div>
@@ -214,10 +236,116 @@
           </div>
         </section>
 
+        <!-- VENDOR VERIFICATION -->
+        <section id="vendorVerification" class="section" style="display: none">
+          <div class="tabs">
+            <button class="tab" onclick="showSection('users')">Users</button>
+            <button class="tab" onclick="showSection('complaints')">
+              Complaints &amp; Disputes
+            </button>
+            <button class="tab" onclick="showSection('announcements')">
+              Announcements
+            </button>
+            <button
+              class="tab active"
+              onclick="showSection('vendorVerification')"
+            >
+              Vendor Verification
+            </button>
+          </div>
+
+          <div class="card">
+            <h3>Vendor Verification Checklist</h3>
+
+            <div class="filters">
+              <input
+                type="text"
+                id="vendorSearch"
+                placeholder="Search vendor name..."
+                onkeyup="renderVendors()"
+              />
+
+              <select id="vendorStatusFilter" onchange="renderVendors()">
+                <option value="All">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vendor ID</th>
+                    <th>Business Name</th>
+                    <th>Owner Name</th>
+                    <th>Category</th>
+                    <th>Account Status</th>
+                    <th>Verification Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="vendorRows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CHECKLIST DETAILS -->
+          <div class="card" id="vendorDetails" style="display: none">
+            <h3 id="checklistTitle">Vendor Checklist</h3>
+
+            <div id="vendorInfo"></div>
+
+            <p class="muted">
+              Review the vendor information before approving the account.
+            </p>
+
+            <div class="checklist-items">
+              <label>
+                <input type="checkbox" id="businessInfo" />
+                Business Information
+              </label>
+
+              <label>
+                <input type="checkbox" id="ownerInfo" />
+                Owner Identity Information
+              </label>
+
+              <label>
+                <input type="checkbox" id="contactInfo" />
+                Contact Information
+              </label>
+
+              <label>
+                <input type="checkbox" id="addressInfo" />
+                Business Address
+              </label>
+            </div>
+
+            <div class="verification-actions">
+              <button onclick="saveVendorChecklist()">Save Changes</button>
+
+              <button class="action greenbtn" onclick="approveVendor()">
+                Approve Vendor
+              </button>
+
+              <button class="action redbtn" onclick="rejectVendor()">
+                Reject Vendor
+              </button>
+            </div>
+            <p id="verificationMessage"></p>
+          </div>
+        </section>
+
         <!-- COMPLAINTS -->
         <section id="complaints" class="section" style="display: none">
           <div class="tabs">
             <button class="tab" onclick="showSection('users')">Users</button>
+            <button class="tab" onclick="showSection('vendorVerification')">
+              Vendor Verification
+            </button>
             <button class="tab active" onclick="showSection('complaints')">
               Complaints &amp; Disputes
             </button>
@@ -259,6 +387,9 @@
         <section id="announcements" class="section" style="display: none">
           <div class="tabs">
             <button class="tab" onclick="showSection('users')">Users</button>
+            <button class="tab" onclick="showSection('vendorVerification')">
+              Vendor Verification
+            </button>
             <button class="tab" onclick="showSection('complaints')">
               Complaints &amp; Disputes
             </button>
@@ -306,6 +437,8 @@
       </main>
     </div>
 
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
     <script src="js/admin.js"></script>
   </body>
 </html>

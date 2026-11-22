@@ -8,7 +8,7 @@ body {
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: black;
-  background-color: rgb(249, 238, 230);
+  background-color: #f9eee6;
 }
 
 .layout {
@@ -377,6 +377,18 @@ select {
 .rejected-status {
   background: #fbd5d7;
   color: #842029;
+}
+
+.form-error {
+  color: red;
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
+
+.form-row > div {
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 850px) {

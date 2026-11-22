@@ -8,6 +8,8 @@ const sections = [
 
 let selectedVendorIndex = -1;
 
+let editIndex = -1;
+
 function renderUsers() {
   let keyword = document.getElementById("userSearch").value.toLowerCase();
   let role = document.getElementById("roleFilter").value;
@@ -79,21 +81,51 @@ function removeAt(list, index) {
   return list.slice(0, index).concat(list.slice(index + 1));
 }
 
-// Add user
-
 function showUserForm() {
+  editIndex = -1;
+
   document.getElementById("userForm").style.display = "flex";
 
   document.getElementById("userName").value = "";
   document.getElementById("userEmail").value = "";
+
+  vendorClearErrors(["userName", "userEmail"]);
 }
 
+// Add user
 function saveUser() {
   let name = document.getElementById("userName").value.trim();
   let email = document.getElementById("userEmail").value.trim();
   let role = document.getElementById("userRole").value;
 
-  if (name !== "" && email !== "") {
+  vendorClearErrors(["userName", "userEmail"]);
+
+  if (vendorIsEmpty(name)) {
+    vendorShowError("userName", "Please enter your name.");
+    return;
+  }
+
+  if (vendorIsEmpty(email)) {
+    vendorShowError("userEmail", "Please enter your email.");
+    return;
+  }
+
+  if (vendorIsValidEmail(email) === false) {
+    vendorShowError("userEmail", "Please enter a valid email.");
+    return;
+  }
+
+  for (let i = 0; i < users.length; i++) {
+    if (
+      i !== editIndex &&
+      users[i].email.toLowerCase() === email.toLowerCase()
+    ) {
+      vendorShowError("userEmail", "Email already exists.");
+      return;
+    }
+  }
+
+  if (editIndex === -1) {
     users.push({
       id: users.length + 1,
       name: name,
@@ -102,22 +134,37 @@ function saveUser() {
       status: "Active",
     });
 
-    document.getElementById("userForm").style.display = "none";
+    alert("User added successfully!");
+  } else {
+    users[editIndex].name = name;
+    users[editIndex].email = email;
+    users[editIndex].role = role;
 
-    renderUsers();
+    alert("User updated successfully!");
+    editIndex = -1;
   }
+
+  document.getElementById("userForm").style.display = "none";
+  document.getElementById("userName").value = "";
+  document.getElementById("userEmail").value = "";
+
+  vendorClearErrors(["userName", "userEmail"]);
+
+  renderUsers();
 }
 
 // Edit user
 
 function editUser(index) {
+  editIndex = index;
+
   document.getElementById("userForm").style.display = "flex";
 
   document.getElementById("userName").value = users[index].name;
   document.getElementById("userEmail").value = users[index].email;
   document.getElementById("userRole").value = users[index].role;
 
-  deleteUser(index);
+  vendorClearErrors(["userName", "userEmail"]);
 }
 
 // Activate or suspend user

@@ -1,179 +1,386 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin_Pannel</title>
-    <link rel="stylesheet" href="css/adminstyle.css" />
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <img
-          src="img/Eventora logo.png"
-          alt="Description of the image"
-          width="100"
-          height="100"
-        />
-        <h2>EVENTORA</h2>
 
-        <button
-          id="nav-dashboard"
-          class="active"
-          onclick="showSection('dashboard')"
-        >
-          Dashboard
-        </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin_Pannel</title>
+  <link rel="stylesheet" href="css/adminstyle.css" />
+</head>
 
-        <button id="nav-users" onclick="showSection('users')">
-          User Management
-        </button>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <img src="image/Eventora logo.png" alt="Description of the image" width="100" height="100" />
+      <h2>EVENTORA</h2>
 
-        <button
-          id="nav-vendorVerification"
-          onclick="showSection('vendorVerification')"
-        >
-          Vendor Verification
-        </button>
+      <button id="nav-dashboard" class="active" onclick="showSection('dashboard')">
+        Dashboard
+      </button>
 
-        <button id="nav-complaints" onclick="showSection('complaints')">
-          Complaints &amp; Disputes
-        </button>
+      <button id="nav-users" onclick="showSection('users')">
+        User Management
+      </button>
 
-        <button id="nav-announcements" onclick="showSection('announcements')">
-          Announcements
-        </button>
+      <button id="nav-vendorVerification" onclick="showSection('vendorVerification')">
+        Vendor Verification
+      </button>
 
-        <button onclick="window.location.href = 'index.html'">Logout</button>
-      </aside>
-      <main class="main">
-        <header class="topbar">
+      <button id="nav-complaints" onclick="showSection('complaints')">
+        Complaints &amp; Disputes
+      </button>
+
+      <button id="nav-announcements" onclick="showSection('announcements')">
+        Announcements
+      </button>
+
+      <button onclick="window.location.href = 'index.html'">Logout</button>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="pageTitle">Admin Dashboard</h2>
+          <p id="pageSubtitle">Overview of your platform</p>
+        </div>
+        <div class="admin">
           <div>
-            <h2 id="pageTitle">Admin Dashboard</h2>
-            <p id="pageSubtitle">Overview of your platform</p>
+            <strong>Admin</strong>
+            <small>Administrator</small>
           </div>
-          <div class="admin">
-            <div>
-              <strong>Admin</strong>
-              <small>Administrator</small>
-            </div>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="section">
+        <h2>Welcome back,Admin</h2>
+        <p id="welcome">Here what's happening on EVENTORA today.</p>
+
+        <div class="stats">
+          <div class="stat">
+            <p>Total Users</p>
+            <h1>150</h1>
           </div>
-        </header>
 
-        <!-- Dashboard -->
-        <section id="dashboard" class="section">
-          <h2>Welcome back,Admin</h2>
-          <p id="welcome">Here what's happening on EVENTORA today.</p>
+          <div class="stat">
+            <p>Active Vendors</p>
+            <h1>35</h1>
+          </div>
 
-          <div class="stats">
-            <div class="stat">
-              <p>Total Users</p>
-              <h1>150</h1>
-            </div>
+          <div class="stat">
+            <p>Open Complaints</p>
+            <h1 id="openCount">8</h1>
+          </div>
 
-            <div class="stat">
-              <p>Active Vendors</p>
-              <h1>35</h1>
-            </div>
+          <div class="stat">
+            <p>Published Announcements</p>
+            <h1 id="publishedCount">4</h1>
+          </div>
+        </div>
 
-            <div class="stat">
-              <p>Open Complaints</p>
-              <h1 id="openCount">8</h1>
-            </div>
+        <div class="card">
+          <h3>Recent User Activity</h3>
 
-            <div class="stat">
-              <p>Published Announcements</p>
-              <h1 id="publishedCount">4</h1>
-            </div>
+          <table>
+            <tr>
+              <th>User Name</th>
+              <th>Role</th>
+              <th>Activity</th>
+              <th>Date</th>
+            </tr>
+
+            <tr>
+              <td>Mushfiqun Nobi Mahim</td>
+              <td>Admin</td>
+              <td>Account Created</td>
+              <td>01 Nov 2026</td>
+            </tr>
+
+            <tr>
+              <td>Rafid Hossain Rafi</td>
+              <td>Vendor</td>
+              <td>Logged In</td>
+              <td>01 Nov 2026</td>
+            </tr>
+
+            <tr>
+              <td>Md Mahin Seikh</td>
+              <td>Client</td>
+              <td>Account Updated</td>
+              <td>31 Oct 2026</td>
+            </tr>
+
+            <tr>
+              <td>Farhan Abser</td>
+              <td>Event Manager</td>
+              <td>Account Updated</td>
+              <td>31 Oct 2026</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="quick">
+          <div class="card">
+            <h3>User Account<br />Activity Monitor</h3>
+            <button onclick="showSection('users')">Manage Users</button>
           </div>
 
           <div class="card">
-            <h3>Recent User Activity</h3>
+            <h3>Vendor Verification<br />Checklist</h3>
+            <button onclick="showSection('vendorVerification')">
+              Verify Vendors
+            </button>
+          </div>
 
+          <div class="card">
+            <h3>Complaint &amp; Dispute<br />Tracker</h3>
+            <button onclick="showSection('complaints')">
+              View Complaints
+            </button>
+          </div>
+
+          <div class="card">
+            <h3>Platform<br />Announcements</h3>
+            <button onclick="showSection('announcements')">
+              Manage Announcements
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- User managment -->
+      <section id="users" class="section" style="display: none">
+        <div class="tabs">
+          <button class="tab active" onclick="showSection('users')">
+            Users
+          </button>
+          <button class="tab" onclick="showSection('vendorVerification')">
+            Vendor Verification
+          </button>
+          <button class="tab" onclick="showSection('complaints')">
+            Complaints &amp; Disputes
+          </button>
+          <button class="tab" onclick="showSection('announcements')">
+            Announcements
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="heading">
+            <h3>User Management</h3>
+            <button onclick="showUserForm()">＋ Add User</button>
+          </div>
+
+          <div id="userForm" class="form-row" style="display: none">
+            <input id="userName" placeholder="Full name" />
+            <input id="userEmail" placeholder="Email" />
+
+            <select id="userRole">
+              <option>Admin</option>
+              <option>Client</option>
+              <option>Vendor</option>
+              <option>Event Manager</option>
+            </select>
+
+            <button onclick="saveUser()">Save User</button>
+          </div>
+
+          <div class="filters">
+            <input id="userSearch" placeholder="Search by name or email..." onkeyup="renderUsers()" />
+
+            <select id="roleFilter" onchange="renderUsers()">
+              <option>All Roles</option>
+              <option>Admin</option>
+              <option>Client</option>
+              <option>Vendor</option>
+              <option>Event Manager</option>
+            </select>
+
+            <select id="statusFilter" onchange="renderUsers()">
+              <option>All Statuses</option>
+              <option>Active</option>
+              <option>Suspended</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
             <table>
-              <tr>
-                <th>User Name</th>
-                <th>Role</th>
-                <th>Activity</th>
-                <th>Date</th>
-              </tr>
-
-              <tr>
-                <td>Mushfiqun Nobi Mahim</td>
-                <td>Admin</td>
-                <td>Account Created</td>
-                <td>01 Nov 2026</td>
-              </tr>
-
-              <tr>
-                <td>Rafid Hossain Rafi</td>
-                <td>Vendor</td>
-                <td>Logged In</td>
-                <td>01 Nov 2026</td>
-              </tr>
-
-              <tr>
-                <td>Md Mahin Seikh</td>
-                <td>Client</td>
-                <td>Account Updated</td>
-                <td>31 Oct 2026</td>
-              </tr>
-
-              <tr>
-                <td>Farhan Abser</td>
-                <td>Event Manager</td>
-                <td>Account Updated</td>
-                <td>31 Oct 2026</td>
-              </tr>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Account Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userRows"></tbody>
             </table>
           </div>
 
-          <div class="quick">
-            <div class="card">
-              <h3>User Account<br />Activity Monitor</h3>
-              <button onclick="showSection('users')">Manage Users</button>
-            </div>
+          <p class="count" id="userCount"></p>
+        </div>
+      </section>
 
-            <div class="card">
-              <h3>Vendor Verification<br />Checklist</h3>
-              <button onclick="showSection('vendorVerification')">
-                Verify Vendors
-              </button>
-            </div>
+      <!-- VENDOR VERIFICATION -->
+      <section id="vendorVerification" class="section" style="display: none">
+        <div class="tabs">
+          <button class="tab" onclick="showSection('users')">Users</button>
+          <button class="tab" onclick="showSection('complaints')">
+            Complaints &amp; Disputes
+          </button>
+          <button class="tab" onclick="showSection('announcements')">
+            Announcements
+          </button>
+          <button class="tab active" onclick="showSection('vendorVerification')">
+            Vendor Verification
+          </button>
+        </div>
 
-            <div class="card">
-              <h3>Complaint &amp; Dispute<br />Tracker</h3>
-              <button onclick="showSection('complaints')">
-                View Complaints
-              </button>
-            </div>
+        <div class="card">
+          <h3>Vendor Verification Checklist</h3>
 
-            <div class="card">
-              <h3>Platform<br />Announcements</h3>
-              <button onclick="showSection('announcements')">
-                Manage Announcements
-              </button>
-            </div>
-          </div>
-        </section>
+          <div class="filters">
+            <input type="text" id="vendorSearch" placeholder="Search vendor name..." onkeyup="renderVendors()" />
 
-        <!-- User managment -->
-        <section id="users" class="section" style="display: none">
-          <div class="tabs">
-            <button class="tab active" onclick="showSection('users')">
-              Users
-            </button>
-            <button class="tab" onclick="showSection('vendorVerification')">
-              Vendor Verification
-            </button>
-            <button class="tab" onclick="showSection('complaints')">
-              Complaints &amp; Disputes
-            </button>
-            <button class="tab" onclick="showSection('announcements')">
-              Announcements
-            </button>
+            <select id="vendorStatusFilter" onchange="renderVendors()">
+              <option value="All">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
           </div>
 
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Vendor ID</th>
+                  <th>Business Name</th>
+                  <th>Owner Name</th>
+                  <th>Category</th>
+                  <th>Account Status</th>
+                  <th>Verification Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="vendorRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CHECKLIST DETAILS -->
+        <div class="card" id="vendorDetails" style="display: none">
+          <h3 id="checklistTitle">Vendor Checklist</h3>
+
+          <div id="vendorInfo"></div>
+
+          <p class="muted">
+            Review the vendor information before approving the account.
+          </p>
+
+          <div class="checklist-items">
+            <label>
+              <input type="checkbox" id="businessInfo" />
+              Business Information
+            </label>
+
+            <label>
+              <input type="checkbox" id="ownerInfo" />
+              Owner Identity Information
+            </label>
+
+            <label>
+              <input type="checkbox" id="contactInfo" />
+              Contact Information
+            </label>
+
+            <label>
+              <input type="checkbox" id="addressInfo" />
+              Business Address
+            </label>
+          </div>
+
+          <div class="verification-actions">
+            <button onclick="saveVendorChecklist()">Save Changes</button>
+
+            <button class="action greenbtn" onclick="approveVendor()">
+              Approve Vendor
+            </button>
+
+            <button class="action redbtn" onclick="rejectVendor()">
+              Reject Vendor
+            </button>
+          </div>
+          <p id="verificationMessage"></p>
+        </div>
+      </section>
+
+      <!-- COMPLAINTS -->
+      <section id="complaints" class="section" style="display: none">
+        <div class="tabs">
+          <button class="tab" onclick="showSection('users')">Users</button>
+          <button class="tab" onclick="showSection('vendorVerification')">
+            Vendor Verification
+          </button>
+          <button class="tab active" onclick="showSection('complaints')">
+            Complaints &amp; Disputes
+          </button>
+          <button class="tab" onclick="showSection('announcements')">
+            Announcements
+          </button>
+        </div>
+
+        <div class="card">
+          <h3>Complaints &amp; Disputes</h3>
+
+          <input id="complaintSearch" class="search" placeholder="⌕ Search complaints..."
+            onkeyup="renderComplaints()" />
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Submitted By</th>
+                  <th>Subject</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="complaintRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ANNOUNCEMENTS -->
+      <section id="announcements" class="section" style="display: none">
+        <div class="tabs">
+          <button class="tab" onclick="showSection('users')">Users</button>
+          <button class="tab" onclick="showSection('vendorVerification')">
+            Vendor Verification
+          </button>
+          <button class="tab" onclick="showSection('complaints')">
+            Complaints &amp; Disputes
+          </button>
+          <button class="tab active" onclick="showSection('announcements')">
+            Announcements
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="heading">
+            <h3>Platform Announcements</h3>
+            <button onclick="showAnnouncementForm()">
+              ＋ Create Announcement
+            </button>
+          </div>
+
+<<<<<<< HEAD
           <div class="card">
             <div class="heading">
               <h3>User Management</h3>
@@ -249,191 +456,43 @@
             <button class="tab" onclick="showSection('announcements')">
               Announcements
             </button>
+=======
+          <div id="announcementForm" class="form-row" style="display: none">
+            <input id="announcementTitle" placeholder="Announcement title" />
+            <button onclick="addAnnouncement()">Save Announcement</button>
+>>>>>>> e956562c5e5a54bc9d1827059d8afc02358f9da0
           </div>
 
-          <div class="card">
-            <h3>Vendor Verification Checklist</h3>
+          <input id="announcementSearch" class="search" placeholder="⌕ Search announcements..."
+            onkeyup="renderAnnouncements()" />
 
-            <div class="filters">
-              <input
-                type="text"
-                id="vendorSearch"
-                placeholder="Search vendor name..."
-                onkeyup="renderVendors()"
-              />
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
 
-              <select id="vendorStatusFilter" onchange="renderVendors()">
-                <option value="All">All Statuses</option>
-                <option value="Pending">Pending</option>
-                <option value="Approved">Approved</option>
-                <option value="Rejected">Rejected</option>
-              </select>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Vendor ID</th>
-                    <th>Business Name</th>
-                    <th>Owner Name</th>
-                    <th>Category</th>
-                    <th>Account Status</th>
-                    <th>Verification Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody id="vendorRows"></tbody>
-              </table>
-            </div>
+              <tbody id="announcementRows"></tbody>
+            </table>
           </div>
+<<<<<<< HEAD
           <div class="card" id="vendorDetails" style="display: none">
             <h3 id="checklistTitle">Vendor Checklist</h3>
+=======
+        </div>
+      </section>
+    </main>
+  </div>
 
-            <div id="vendorInfo"></div>
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+>>>>>>> e956562c5e5a54bc9d1827059d8afc02358f9da0
 
-            <p class="muted">
-              Review the vendor information before approving the account.
-            </p>
-
-            <div class="checklist-items">
-              <label>
-                <input type="checkbox" id="businessInfo" />
-                Business Information
-              </label>
-
-              <label>
-                <input type="checkbox" id="ownerInfo" />
-                Owner Identity Information
-              </label>
-
-              <label>
-                <input type="checkbox" id="contactInfo" />
-                Contact Information
-              </label>
-
-              <label>
-                <input type="checkbox" id="addressInfo" />
-                Business Address
-              </label>
-            </div>
-
-            <div class="verification-actions">
-              <button onclick="saveVendorChecklist()">Save Changes</button>
-
-              <button class="action greenbtn" onclick="approveVendor()">
-                Approve Vendor
-              </button>
-
-              <button class="action redbtn" onclick="rejectVendor()">
-                Reject Vendor
-              </button>
-            </div>
-            <p id="verificationMessage"></p>
-          </div>
-        </section>
-
-        <!-- COMPLAINTS -->
-        <section id="complaints" class="section" style="display: none">
-          <div class="tabs">
-            <button class="tab" onclick="showSection('users')">Users</button>
-            <button class="tab" onclick="showSection('vendorVerification')">
-              Vendor Verification
-            </button>
-            <button class="tab active" onclick="showSection('complaints')">
-              Complaints &amp; Disputes
-            </button>
-            <button class="tab" onclick="showSection('announcements')">
-              Announcements
-            </button>
-          </div>
-
-          <div class="card">
-            <h3>Complaints &amp; Disputes</h3>
-
-            <input
-              id="complaintSearch"
-              class="search"
-              placeholder="⌕ Search complaints..."
-              onkeyup="renderComplaints()"
-            />
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Submitted By</th>
-                    <th>Subject</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody id="complaintRows"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- ANNOUNCEMENTS -->
-        <section id="announcements" class="section" style="display: none">
-          <div class="tabs">
-            <button class="tab" onclick="showSection('users')">Users</button>
-            <button class="tab" onclick="showSection('vendorVerification')">
-              Vendor Verification
-            </button>
-            <button class="tab" onclick="showSection('complaints')">
-              Complaints &amp; Disputes
-            </button>
-            <button class="tab active" onclick="showSection('announcements')">
-              Announcements
-            </button>
-          </div>
-
-          <div class="card">
-            <div class="heading">
-              <h3>Platform Announcements</h3>
-              <button onclick="showAnnouncementForm()">
-                ＋ Create Announcement
-              </button>
-            </div>
-
-            <div id="announcementForm" class="form-row" style="display: none">
-              <input id="announcementTitle" placeholder="Announcement title" />
-              <button onclick="addAnnouncement()">Save Announcement</button>
-            </div>
-
-            <input
-              id="announcementSearch"
-              class="search"
-              placeholder="⌕ Search announcements..."
-              onkeyup="renderAnnouncements()"
-            />
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody id="announcementRows"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <script src="js/data.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/admin.js"></script>
-  </body>
 </html>

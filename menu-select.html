@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Customer area of the Event and Vendor Management System">
+  <title>Menu Selection | EVENTORA</title>
+  <link rel="stylesheet" href="css/client.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="index.html" class="logo">EVENT<span>ORA</span></a>
+    <div class="user-info">
+      <span class="badge customer">Customer</span>
+      <span>Welcome, Customer Name</span>
+      <a href="login.html" class="btn btn-small btn-light">Logout</a>
+    </div>
+  </header>
+
+  <nav class="topnav">
+    <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-eventsSection" onclick="showSection('eventsSection')">Create Event</button>
+    <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
+    <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
+      Selection</button>
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportationSection')">Transportation
+      Management</button>
+  </nav>
+
+  <main class="container">
+    <div class="card">
+      <h3>Food Categories</h3>
+      <div class="row">
+        <div class="col">
+          <div class="card"><img src="image/kacchi.jpg" alt="kacchi" class="feature-image">
+            <h3>KACCHI</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/teheri.jpg" alt="tehari" class="feature-image">
+            <h3>TEHARI</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/polao.jpg" alt="polao" class="feature-image">
+            <h3>POLAO</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/roast.jpg" alt="roast" class="feature-image">
+            <h3>ROAST</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/beef.jpg" alt="beef" class="feature-image">
+            <h3>BEEF REZALA</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/kalavuna.jpg" alt="beef kalo vuna" class="feature-image">
+            <h3>BEEF KALO VUNA</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/hilshafish.jpg" alt="hilshafish" class="feature-image">
+            <h3>HILSHAFISH</h3>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card"><img src="image/fried.jpg" alt="friedfish" class="feature-image">
+            <h3>FRIED FISH</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="page-section">
+      <h2 class="page-title">Menu Selection</h2>
+      <p class="page-subtitle">Choose food preferences and manage your event menu selections.</p>
+      <div id="menuMessage" class="message"></div>
+
+      <div class="card">
+        <h3 id="menuFormTitle">Add Menu Selection</h3>
+        <form id="menuForm" onsubmit="return saveMenuSelection()">
+          <fieldset>
+            <legend>Menu Details</legend>
+            <table class="form-table">
+              <tr>
+                <td><label for="eventType">Select event:</label></td>
+                <td><select id="eventType">
+                    <option value="">Select event type</option>
+                    <option>Wedding</option>
+                    <option>Engagement</option>
+                    <option>Birthday</option>
+                    <option>Corporate party</option>
+                    <option>Convocation</option>
+                    <option>Anniversary</option>
+                    <option>Other</option>
+                  </select><span class="error" id="eventTypeError"></span></td>
+              </tr>
+              <tr>
+                <td><label for="foodCategory">Food Category:</label></td>
+                <td>
+                  <input type="checkbox" id="food1" name="foodItems" value="KACCHI">KACCHI
+                  <input type="checkbox" id="food2" name="foodItems" value="TEHARI">TEHARI
+                  <input type="checkbox" id="food3" name="foodItems" value="POLAO">POLAO
+                  <input type="checkbox" id="food4" name="foodItems" value="ROAST">ROAST
+                  <input type="checkbox" id="food5" name="foodItems" value="BEEF REZALA">BEEF REZALA
+                  <input type="checkbox" id="food6" name="foodItems" value="KALO VUNA">KALO VUNA
+                  <br>
+                  <input type="checkbox" id="food7" name="foodItems" value="HILSHA FISH">HILSHA FISH
+                  <input type="checkbox" id="food8" name="foodItems" value="FRIED FISH">FRIED FISH
+                  <input type="checkbox" id="food9" name="foodItems" value="SHRIMP FISH">SHRIMP FISH
+                  <input type="checkbox" id="food10" name="foodItems" value="BORHANI">BORHANI
+                  <input type="checkbox" id="food11" name="foodItems" value="DOI">DOI
+                </td>
+              </tr>
+              <tr>
+                <td><label for="foodItem">Other Menu Item :</label></td>
+                <td><input type="text" id="foodItem" placeholder="Enter preferred dish or package"></td>
+              </tr>
+              <tr>
+                <td><label for="foodQuantity">Number of Guests:</label></td>
+                <td><input type="number" id="foodQuantity" min="1" placeholder="Expected guests"></td>
+              </tr>
+              <tr>
+                <td><label for="foodNotes">Special Requirements:</label></td>
+                <td><textarea id="foodNotes" rows="3" placeholder="Other needs or other instructions"></textarea></td>
+              </tr>
+            </table>
+          </fieldset>
+
+          <input type="hidden" id="editingMenuId">
+          <input type="submit" id="menuSaveButton" class="btn" value="Add to Menu">
+          <button type="button" class="btn btn-secondary" onclick="resetMenuForm()">Clear Form</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>My Menu Selections</h3>
+        <div class="search-bar"><input type="text" id="menuSearch" placeholder="Search menu selection..."
+            onkeyup="renderMenuSelections()"><select id="menuCategoryFilter" onchange="renderMenuSelections()">
+            <option value="All">All categories</option>
+            <option>Regular Foods</option>
+            <option>Chinese</option>
+            <option>Italian</option>
+            <option>French</option>
+          </select></div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Category</th>
+                <th>Item</th>
+                <th>Guests</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="menuTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/menu-select.js"></script>
+
+  <footer class="footer">
+    &copy; 2026 EventEase &middot; Event and Vendor Management System
+  </footer>
+</body>
+
+</html>

@@ -1,13 +1,15 @@
-//vendor
 
+//vendorshowsection--loops these list
 const vendorSections = ["vendorServicesSection", "vendorProfitSection", "vendorChecklistSection", "vendorPrepSection"];
 
-const currentVendorId = "U-001";
 
+const currentVendorId = "U-1";
+
+
+//adding new service create or update 
 let vendorEditServiceIndex = -1;
 
-const vendorServiceFields = ["vendorServiceTitle", "vendorServicePrice", "vendorServiceCategory", "vendorServiceDuration",
-                       "vendorServiceCapacity", "vendorServiceRequirements", "vendorServiceAvailability"];
+const vendorServiceFields = ["vendorServiceTitle", "vendorServicePrice", "vendorServiceCategory", "vendorServiceDuration", "vendorServiceCapacity", "vendorServiceRequirements", "vendorServiceAvailability"];
 const vendorChecklistFields = ["vendorChecklistEventType", "vendorChecklistEquipment", "vendorChecklistQuantity"];
 const vendorPrepFields = ["vendorPrepBooking", "vendorPrepTaskName", "vendorPrepWorkers", "vendorPrepHours"];
 
@@ -15,7 +17,7 @@ const vendorPrepFields = ["vendorPrepBooking", "vendorPrepTaskName", "vendorPrep
 
 
 
-// read and search
+// read and search 
 function vendorRenderServices() {
   let keyword = document.getElementById("vendorServiceSearch").value;
   let categoryFilter = document.getElementById("vendorServiceCategoryFilter").value;
@@ -31,6 +33,7 @@ function vendorRenderServices() {
       mine++;
     }
 
+//search match the keyword
     let matchesKeyword = vendorContainsText(service.title, keyword) || vendorContainsText(service.category, keyword) ||
                          vendorContainsText(service.price, keyword);
     let matchesCategory = (categoryFilter === "All" || service.category === categoryFilter);
@@ -39,7 +42,7 @@ function vendorRenderServices() {
 
 
     if (isMine && matchesKeyword && matchesCategory && matchesAvailability) {
-      
+      //status button color
       let statusColor;
       switch (service.availability) {
         case "Available":
@@ -48,16 +51,15 @@ function vendorRenderServices() {
         default:
           statusColor = "orange";
       }
-
+//new services added in the my services table in rows
       rows += "<tr>" +
                 "<td>" + service.id + "</td>" +
-                "<td><strong>" + service.title + "</strong><br><span class='vendor-hint'>" + service.capacity + "</span></td>" +
-                "<td>" + service.category + "</td>" +
-                "<td>" + service.price + "</td>" +
-                "<td>" + service.duration + "<br><span class='vendor-hint'>" + service.requirements + "</span></td>" +
+                "<td><strong>" + service.title + "</strong><br><span class='vendor-hint'>" + service.capacity + "</span></td>" +"<td>" + service.category + "</td>" +
+                "<td>" + service.price + "</td>" +"<td>" + service.duration + "<br><span class='vendor-hint'>" + service.requirements + "</span></td>" +
                 "<td><span class='vendor-badge vendor-" + statusColor + "'>" + service.availability + "</span></td>" +
                 "<td>" +
-                  "<button type='button' class='vendor-btn vendor-btn-small' onclick='vendorEditService(" + i + ")'>Edit</button>" +
+
+                  "<button type='button' class='vendor-btn vendor-btn-small' onclick='vendorEditService(" + i + ")'>Edit</button>" +                          //edit remembers the info in the row and loads it in the section 
                   "<button type='button' class='vendor-btn vendor-btn-small vendor-btn-danger' onclick='vendorDeleteService(" + i + ")'>Delete</button>" +
                 "</td>" +
               "</tr>";
@@ -68,16 +70,17 @@ function vendorRenderServices() {
 
   if (shown === 0) 
   {
-    rows = "<tr><td colspan='7' class='vendor-empty-row'>No services match your search.</td></tr>";
+    rows = "<tr><td colspan='7' class='vendor-empty-row'>No services match your search.</td></tr>"; //no search found
   }
 
   document.getElementById("vendorServiceTableBody").innerHTML = rows;
-  document.getElementById("vendorServiceCount").innerHTML = "Showing " + shown + " of " + mine + " services";
+  document.getElementById("vendorServiceCount").innerHTML = "Showing " + shown + " of " + mine + " services";   // 5 of 5 services
 }
 
 
 //create and update
-function vendorSaveService() {
+function vendorSaveService() 
+{
   let title = document.getElementById("vendorServiceTitle").value.trim();
   let price = document.getElementById("vendorServicePrice").value.trim();
   let category = document.getElementById("vendorServiceCategory").value;
@@ -87,7 +90,9 @@ function vendorSaveService() {
   let availability = document.getElementById("vendorServiceAvailability").value;
 
   let isValid = true;
-  vendorClearErrors(vendorServiceFields);
+  vendorClearErrors(vendorServiceFields); //initially true so no red marks
+
+  //validation 
 
   if (title.length < 3) {
     vendorShowError("vendorServiceTitle", "Title must be at least 3 characters.");
@@ -108,19 +113,22 @@ function vendorSaveService() {
     return false;
   }
 
+  
 
-  //create
-  if (vendorEditServiceIndex === -1) {
+  //create new service
+  if (vendorEditServiceIndex === -1)
+  {
   
     let newService = { id: vendorNextId("V", vendorServices), vendorId: currentVendorId, title: title, category: category,
-                       price: price, duration: duration, capacity: capacity, requirements: requirements,
+                        price: price, duration: duration, capacity: capacity, requirements: requirements,
                        availability: availability };
     vendorServices.push(newService);
     vendorShowMessage("vendorServiceMessage", "Service " + newService.id + " <strong>" + title + "</strong> was added.", "success");
-  } else 
-    
-    
-  //update 
+  } 
+  
+  else 
+      
+  //update or edit
   {
   
     let service = vendorServices[vendorEditServiceIndex];
@@ -134,13 +142,14 @@ function vendorSaveService() {
     vendorShowMessage("vendorServiceMessage", "Service " + service.id + " was updated.", "success");
   }
 
+  //after  create clear table reset all info
   vendorResetServiceForm();
   vendorRenderServices();
   return false;
 }
 
 
-
+//edit
 function vendorEditService(index) {
   let service = vendorServices[index];
   vendorEditServiceIndex = index;
@@ -154,7 +163,7 @@ function vendorEditService(index) {
   document.getElementById("vendorServiceAvailability").value = service.availability;
 
   document.getElementById("vendorServiceFormTitle").innerHTML = "Edit Service " + service.id;
-  document.getElementById("vendorServiceSaveButton").value = "Update Service";
+  document.getElementById("vendorServiceSaveButton").value = "Update Service"; 
   vendorHideMessage("vendorServiceMessage");
 }
 
@@ -168,7 +177,7 @@ function vendorDeleteService(index) {
   vendorRenderServices();
 }
 
-
+//reset
 function vendorResetServiceForm() {
   vendorEditServiceIndex = -1;
   document.getElementById("vendorServiceForm").reset();
@@ -179,7 +188,8 @@ function vendorResetServiceForm() {
 
 
 
-//vendor expense and profit calculator
+//unique feature : 1....vendor expense and profit calculator
+//reads the prebuid data or changed values
 function vendorCalculateProfit() {
   let revenue = Number(document.getElementById("vendorProfitRevenue").value);
   let material = Number(document.getElementById("vendorProfitMaterial").value);
@@ -190,6 +200,7 @@ function vendorCalculateProfit() {
   let totalExpense = material + worker + transport + other;
   let profit = revenue - totalExpense;
 
+//your setimate box
   document.getElementById("vendorProfitResult").innerHTML =
     "<p>Service revenue: <strong>৳" + revenue + "</strong></p>" +
     "<p>Total expenses: <strong>৳" + totalExpense + "</strong></p>" +
@@ -203,10 +214,11 @@ function vendorCalculateProfit() {
 }
 
 
-//equipment checklist
+//unique feature 2...equipment checklist
 
 //all tick value saved
-function vendorGetCheckedValues(groupName) {
+function vendorGetCheckedValues(groupName) 
+{
   let boxes = document.getElementsByName(groupName);
   let selected = [];
   for (let i = 0; i < boxes.length; i++) {
@@ -217,7 +229,8 @@ function vendorGetCheckedValues(groupName) {
   return selected;
 }
 
-function vendorShowEquipment() {
+function vendorShowEquipment() 
+{
   let eventType = document.getElementById("vendorChecklistEventType").value;
 
   document.getElementById("vendorEquipmentHint").style.display = (eventType === "") ? "block" : "none";
@@ -256,11 +269,12 @@ function vendorSaveChecklist() {
 
   let chosen = vendorGetCheckedValues(groupName);
 
+  //validation
   let isValid = true;
   vendorClearErrors(vendorChecklistFields);
 
   if (eventType === "") {
-    vendorShowError("vendorChecklistEventType", "Please select an event type.");
+    vendorShowError("vendorChecklistEventType", "Please select an event .");
     isValid = false;
   } else if (chosen.length === 0) {
     vendorShowError("vendorChecklistEquipment", "Select at least one equipment.");
@@ -268,7 +282,7 @@ function vendorSaveChecklist() {
   }
 
   if (quantity < 1) {
-    vendorShowError("vendorChecklistQuantity", "Quantity must be at least 1.");
+    vendorShowError("vendorChecklistQuantity", "Quantity at least 1.");
     isValid = false;
   }
 
@@ -280,13 +294,14 @@ function vendorSaveChecklist() {
     vendorChecklistItems.push({ eventType: eventType, item: equipment, qty: quantity, done: false });
   }
 
+  //successfully added
   vendorShowMessage("vendorChecklistMessage", chosen.length + " equipment item(s) added to the checklist.", "success");
   vendorResetChecklistForm();
   vendorRenderChecklist();
   return false;
 }
 
-
+//clears the form
 function vendorResetChecklistForm() {
   document.getElementById("vendorChecklistForm").reset();
   vendorClearErrors(vendorChecklistFields);
@@ -294,15 +309,15 @@ function vendorResetChecklistForm() {
 }
 
 
-//render 
+//builds the table and run showvendorequipment
 function vendorRenderChecklist() {
   let rows = "";
 
   for (let i = 0; i < vendorChecklistItems.length; i++) {
     let entry = vendorChecklistItems[i];
     let statusColor = entry.done ? "green" : "orange";
-    let statusText = entry.done ? "Done" : "To do";
-    let buttonText = entry.done ? "Undo" : "Mark done";
+    let statusText = entry.done ? "Done" : "To do"; 
+    let buttonText = entry.done ? "Undo" : "Mark done"; 
 
     rows += "<tr>" +
               "<td>" + entry.eventType + "</td>" +
@@ -330,7 +345,7 @@ function vendorToggleChecklistItem(index) {
 }
 
 
-//delete
+//delete item new & list form
 function vendorDeleteChecklistItem(index) {
   vendorChecklistItems = vendorRemoveAt(vendorChecklistItems, index);
   vendorRenderChecklist();

@@ -22,10 +22,11 @@
 
   <nav class="topnav">
     <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-eventsSection" onclick="showSection('eventsSection')">Create Event</button>
     <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
     <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
       Selection</button>
-    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportationSection')">Transportation
       Management</button>
   </nav>
 
@@ -103,18 +104,18 @@
               <tr>
                 <td><label for="foodCategory">Food Category:</label></td>
                 <td>
-                  <input type="checkbox" id="food" value="food">KACCHI
-                  <input type="checkbox" id="food" value="food">TEHARI
-                  <input type="checkbox" id="food" value="food">POLAO
-                  <input type="checkbox" id="food" value="food">ROAST
-                  <input type="checkbox" id="food" value="food">BEEF REZALA
-                  <input type="checkbox" id="food" value="food">KALO VUNA
+                  <input type="checkbox" id="food1" name="foodItems" value="KACCHI">KACCHI
+                  <input type="checkbox" id="food2" name="foodItems" value="TEHARI">TEHARI
+                  <input type="checkbox" id="food3" name="foodItems" value="POLAO">POLAO
+                  <input type="checkbox" id="food4" name="foodItems" value="ROAST">ROAST
+                  <input type="checkbox" id="food5" name="foodItems" value="BEEF REZALA">BEEF REZALA
+                  <input type="checkbox" id="food6" name="foodItems" value="KALO VUNA">KALO VUNA
                   <br>
-                  <input type="checkbox" id="food" value="food">HILSHA FISH
-                  <input type="checkbox" id="food" value="food">FRIED FISH
-                  <input type="checkbox" id="food" value="food">SHRIMP FISH
-                  <input type="checkbox" id="food" value="food">BORHANI
-                  <input type="checkbox" id="food" value="food">DOI
+                  <input type="checkbox" id="food7" name="foodItems" value="HILSHA FISH">HILSHA FISH
+                  <input type="checkbox" id="food8" name="foodItems" value="FRIED FISH">FRIED FISH
+                  <input type="checkbox" id="food9" name="foodItems" value="SHRIMP FISH">SHRIMP FISH
+                  <input type="checkbox" id="food10" name="foodItems" value="BORHANI">BORHANI
+                  <input type="checkbox" id="food11" name="foodItems" value="DOI">DOI
                 </td>
               </tr>
               <tr>
@@ -152,7 +153,6 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Event</th>
                 <th>Category</th>
                 <th>Item</th>

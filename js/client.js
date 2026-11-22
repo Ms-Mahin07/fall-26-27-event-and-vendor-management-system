@@ -1,5 +1,5 @@
 const sections = ["dashboardSection", "eventsSection"];
-let customerEvents = [];
+
 let editingEventIndex = -1;
 
 const eventFields = ["eventName", "eventType", "eventDate", "eventLocation"];
@@ -12,12 +12,11 @@ function renderCustomerEvents() {
 
   for (let i = 0; i < customerEvents.length; i++) {
     let event = customerEvents[i];
-    let matchesText = containsText(event.id, keyword) || containsText(event.name, keyword) || containsText(event.location, keyword);
-    let matchesType = typeFilter === "All" || event.type === typeFilter;
+    let matchesText = containsText(event.name, keyword) || containsText(event.location, keyword);
+    let matchesType = typeFilter === "All" || (event.type === typeFilter || (typeFilter === "Corporate" && event.type === "Corporate party"));
 
     if (matchesText && matchesType) {
       rows += "<tr>" +
-        "<td>" + event.id + "</td>" +
         "<td><strong>" + event.name + "</strong></td>" +
         "<td>" + event.type + "</td>" +
         "<td>" + event.date + "</td>" +
@@ -32,7 +31,7 @@ function renderCustomerEvents() {
   }
 
   if (shown === 0) {
-    rows = "<tr><td colspan='7' class='empty-row'>No events found.</td></tr>";
+    rows = "<tr><td colspan='6' class='empty-row'>No events found.</td></tr>";
   }
 
   document.getElementById("customerEventsTableBody").innerHTML = rows;
@@ -97,6 +96,7 @@ function saveCustomerEvent() {
       description: description
     };
     customerEvents.push(newEvent);
+    saveEVMSData(EVMS_KEYS.events, customerEvents);
     showMessage("eventMessage", "Event <strong>" + name + "</strong> was added.", "success");
   } else {
     let event = customerEvents[editingEventIndex];
@@ -107,6 +107,7 @@ function saveCustomerEvent() {
     event.guests = guests;
     event.budget = budget;
     event.description = description;
+    saveEVMSData(EVMS_KEYS.events, customerEvents);
     showMessage("eventMessage", "Event <strong>" + name + "</strong> was updated.", "success");
   }
 
@@ -124,6 +125,12 @@ function nextClientEventId() {
   return "EV-" + String(largest + 1).padStart(3, "0");
 }
 
+function openCreateEventForm() {
+  resetEventForm();
+  showSection("eventsSection");
+  document.getElementById("eventName").focus();
+}
+
 function editCustomerEvent(index) {
   let event = customerEvents[index];
   editingEventIndex = index;
@@ -136,7 +143,7 @@ function editCustomerEvent(index) {
   document.getElementById("eventBudget").value = event.budget;
   document.getElementById("eventDescription").value = event.description;
 
-  document.getElementById("eventFormTitle").innerHTML = "Edit Event " + event.id;
+  document.getElementById("eventFormTitle").innerHTML = "Edit Event";
   document.getElementById("eventSaveButton").value = "Update Event";
   hideMessage("eventMessage");
   showSection("eventsSection");
@@ -146,7 +153,8 @@ function deleteCustomerEvent(index) {
   let event = customerEvents[index];
   if (confirm("Delete the event '" + event.name + "'?")) {
     customerEvents = removeAt(customerEvents, index);
-    showMessage("eventMessage", "Event " + event.id + " was deleted.", "info");
+    saveEVMSData(EVMS_KEYS.events, customerEvents);
+    showMessage("eventMessage", "Event was deleted.", "info");
     resetEventForm();
     renderCustomerEvents();
   }
@@ -162,16 +170,47 @@ function resetEventForm() {
 
 function updateClientDashboard() {
   let totalBudget = 0;
+
   for (let i = 0; i < customerEvents.length; i++) {
     totalBudget += Number(customerEvents[i].budget) || 0;
   }
 
+  refreshClientSelections();
+
   document.getElementById("customerEventCount").innerHTML = customerEvents.length;
-  document.getElementById("customerBookingCount").innerHTML = "0";
-  document.getElementById("customerServiceCount").innerHTML = "0";
+  document.getElementById("customerBookingCount").innerHTML = transportBookings.length;
+  document.getElementById("customerServiceCount").innerHTML = menuSelections.length + activitySelections.length;
   document.getElementById("customerTotalExpense").innerHTML = totalBudget.toLocaleString() + " Tk";
+
+  renderClientSelections();
 }
 
+/* Display the combined clientSelections array below the dashboard summary. */
+function renderClientSelections() {
+  let rows = "";
+
+  for (let i = 0; i < clientSelections.length; i++) {
+    let item = clientSelections[i];
+
+    rows += "<tr>" +
+      "<td>" + item.type + "</td>" +
+      "<td>" + item.event + "</td>" +
+      "<td>" + (item.selected || "—") + "</td>" +
+      "<td>" + (item.categoryDate || "—") + "</td>" +
+      "<td>" + (item.quantity || "—") + "</td>" +
+      "<td>" + (item.details || "—") + "</td>" +
+      "</tr>";
+  }
+
+  if (rows === "") {
+    rows = "<tr><td colspan='6' class='empty-row'>No menu, transportation or activity selections have been added yet.</td></tr>";
+  }
+
+  let tableBody = document.getElementById("clientSelectionsTableBody");
+  if (tableBody !== null) {
+    tableBody.innerHTML = rows;
+  }
+}
 
 /* Navigation for the customer pages.
    The HTML uses client.js, so this file must define the dashboard functions. */
@@ -197,7 +236,7 @@ function showSection(sectionId) {
     }
   }
 
-  let navButtons = ["dashboardSection", "menuSection", "activitiesSection", "transportationSection"];
+  let navButtons = ["dashboardSection", "eventsSection", "menuSection", "activitiesSection", "transportationSection"];
   for (let i = 0; i < navButtons.length; i++) {
     let button = document.getElementById("nav-" + navButtons[i]);
     if (button !== null) {
@@ -209,4 +248,3 @@ function showSection(sectionId) {
 /* Initial page setup */
 renderCustomerEvents();
 showSection("dashboardSection");
-showSection("eventsSection");

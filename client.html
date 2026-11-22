@@ -22,10 +22,11 @@
 
   <nav class="topnav">
     <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-eventsSection" onclick="showSection('eventsSection')">Create Event</button>
     <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
     <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
       Selection</button>
-    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportationSection')">Transportation
       Management</button>
   </nav>
 
@@ -34,6 +35,16 @@
     <section id="dashboardSection" class="page-section">
       <h2 class="page-title">Customer Dashboard</h2>
       <p class="page-subtitle">Plan your event and manage all your selections and bookings.</p>
+
+      <!-- QUICK ACTION: CREATE AND MANAGE EVENTS -->
+      <div class="card">
+        <h3>Start Planning Your Event</h3>
+        <p>Create a new event by entering its name, type, date, location, expected guests and budget.
+          You can update or delete the event later from My Events.</p>
+        <br>
+        <button type="button" class="btn" onclick="openCreateEventForm()">+ Create New Event</button>
+        <button type="button" class="btn btn-secondary" onclick="showSection('eventsSection')">View My Events</button>
+      </div>
 
       <div class="row">
         <div class="col">
@@ -59,6 +70,31 @@
             <h3>Estimated Total</h3>
             <p id="customerTotalExpense">0Taka</p>
           </div>
+        </div>
+      </div>
+
+      <!-- CLIENT TEMPORARY SELECTIONS FROM MENU, TRANSPORTATION AND ACTIVITIES -->
+      <div class="card">
+        <h3>My Selected Services & Bookings</h3>
+        <p class="page-subtitle">Selections saved from the Menu, Transportation and Activities pages.</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Event</th>
+                <th>Selected Items / Services</th>
+                <th>Category / Date</th>
+                <th>Quantity / Guests</th>
+                <th>Notes / Details</th>
+              </tr>
+            </thead>
+            <tbody id="clientSelectionsTableBody">
+              <tr>
+                <td colspan="6" class="empty-row">No selections yet.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -143,8 +179,7 @@
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Event</th>
+                        <th>Event</th>
                     <th>Type</th>
                     <th>Date</th>
                     <th>Location</th>

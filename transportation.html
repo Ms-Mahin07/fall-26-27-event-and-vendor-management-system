@@ -22,10 +22,11 @@
 
   <nav class="topnav">
     <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-eventsSection" onclick="showSection('eventsSection')">Create Event</button>
     <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
     <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
       Selection</button>
-    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportationSection')">Transportation
       Management</button>
   </nav>
 
@@ -89,10 +90,10 @@
               <tr>
                 <td><label for="transportation">Transportation Category:</label></td>
                 <td>
-                  <input type="checkbox" id="transportation" value="transportation">Micro Van
-                  <input type="checkbox" id="transportation" value="transportation">Private Car
-                  <input type="checkbox" id="transportation" value="transportation">Bus
-                  <input type="checkbox" id="transportation" value="transportation">Ghorar Gari
+                  <input type="checkbox" id="vehicle1" name="vehicles" value="Micro Van">Micro Van
+                  <input type="checkbox" id="vehicle2" name="vehicles" value="Private Car">Private Car
+                  <input type="checkbox" id="vehicle3" name="vehicles" value="Bus">Bus
+                  <input type="checkbox" id="vehicle4" name="vehicles" value="Ghorar Gari">Ghorar Gari
                 </td>
               </tr>
               <tr>
@@ -102,10 +103,6 @@
               <tr>
                 <td><label for="pickupDate">Pickup Date:</label></td>
                 <td><input type="date" id="pickupDate"></td>
-              </tr>
-              <tr>
-                <td><label for="pickupTime">Pickup Time:</label></td>
-                <td><input type="time" id="pickupTime"></td>
               </tr>
               <tr>
                 <td><label for="pickupLocation">Pickup Location:</label></td>
@@ -140,11 +137,10 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Event</th>
                 <th>Vehicle</th>
                 <th>Quantity</th>
-                <th>Date & Time</th>
+                <th>Date</th>
                 <th>Pickup</th>
                 <th>Drop-off</th>
                 <th>Status</th>

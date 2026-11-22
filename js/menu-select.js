@@ -1,5 +1,5 @@
 const sections = [];
-let menuSelections = [];
+
 let editingMenuIndex = -1;
 
 function showSection(sectionId) {
@@ -15,16 +15,8 @@ function showSection(sectionId) {
 }
 
 function getSelectedMenuFoods() {
-  let boxes = document.querySelectorAll("input#food");
-  let selected = [];
-  for (let i = 0; i < boxes.length; i++) {
-    if (boxes[i].checked) {
-      selected.push(boxes[i].nextSibling.textContent.trim());
-    }
-  }
-  return selected;
+  return getCheckedValues("foodItems");
 }
-
 function renderMenuSelections() {
   let keyword = document.getElementById("menuSearch").value;
   let categoryFilter = document.getElementById("menuCategoryFilter").value;
@@ -33,14 +25,13 @@ function renderMenuSelections() {
 
   for (let i = 0; i < menuSelections.length; i++) {
     let item = menuSelections[i];
-    let matches = containsText(item.id, keyword) ||
-                  containsText(item.event, keyword) ||
+    let matches = containsText(item.event, keyword) ||
                   containsText(item.foods.join(", "), keyword) ||
                   containsText(item.other, keyword);
     let categoryMatches = categoryFilter === "All" || item.category === categoryFilter;
 
     if (matches && categoryMatches) {
-      rows += "<tr><td>" + item.id + "</td><td>" + item.event + "</td>" +
+      rows += "<tr><td>" + item.event + "</td>" +
         "<td>" + item.category + "</td><td>" + item.foods.join(", ") +
         (item.other === "" ? "" : ", " + item.other) + "</td>" +
         "<td>" + item.guests + "</td><td>" + item.notes + "</td><td>" +
@@ -52,7 +43,7 @@ function renderMenuSelections() {
   }
 
   if (shown === 0) {
-    rows = "<tr><td colspan='7' class='empty-row'>No menu selections found.</td></tr>";
+    rows = "<tr><td colspan='6' class='empty-row'>No menu selections found.</td></tr>";
   }
   document.getElementById("menuTableBody").innerHTML = rows;
 }
@@ -92,6 +83,7 @@ function saveMenuSelection() {
       foods: foods, other: other, guests: guests, notes: notes
     };
     menuSelections.push(newItem);
+    saveEVMSData(EVMS_KEYS.menus, menuSelections);
     showMessage("menuMessage", "Menu selection was added successfully.", "success");
   } else {
     let item = menuSelections[editingMenuIndex];
@@ -101,6 +93,7 @@ function saveMenuSelection() {
     item.guests = guests;
     item.notes = notes;
     item.category = category;
+    saveEVMSData(EVMS_KEYS.menus, menuSelections);
     showMessage("menuMessage", "Menu selection was updated.", "success");
   }
 
@@ -117,14 +110,14 @@ function editMenuSelection(index) {
   let item = menuSelections[index];
   editingMenuIndex = index;
   document.getElementById("eventType").value = item.event;
-  let boxes = document.querySelectorAll("input#food");
+  let boxes = document.getElementsByName("foodItems");
   for (let i = 0; i < boxes.length; i++) {
-    boxes[i].checked = item.foods.indexOf(boxes[i].nextSibling.textContent.trim()) !== -1;
+    boxes[i].checked = item.foods.indexOf(boxes[i].value) !== -1;
   }
   document.getElementById("foodItem").value = item.other;
   document.getElementById("foodQuantity").value = item.guests;
   document.getElementById("foodNotes").value = item.notes;
-  document.getElementById("menuFormTitle").innerHTML = "Edit Menu Selection " + item.id;
+  document.getElementById("menuFormTitle").innerHTML = "Edit Menu Selection";
   document.getElementById("menuSaveButton").value = "Update Menu";
   hideMessage("menuMessage");
 }
@@ -133,7 +126,8 @@ function deleteMenuSelection(index) {
   let item = menuSelections[index];
   if (confirm("Delete this menu selection?")) {
     menuSelections = removeAt(menuSelections, index);
-    showMessage("menuMessage", "Menu selection " + item.id + " was deleted.", "info");
+    saveEVMSData(EVMS_KEYS.menus, menuSelections);
+    showMessage("menuMessage", "Menu selection was deleted.", "info");
     resetMenuForm();
     renderMenuSelections();
   }

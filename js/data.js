@@ -1,3 +1,36 @@
+
+
+const EVMS_KEYS = {
+  users: "eventora_users",
+  events: "eventora_events",
+  menus: "eventora_menus",
+  transports: "eventora_transports",
+  activities: "eventora_activities"
+};
+
+function loadEVMSData(key, defaultValue) {
+  try {
+    let savedData = localStorage.getItem(key);
+    if (savedData === null) {
+      return defaultValue === undefined ? [] : defaultValue;
+    }
+    let parsedData = JSON.parse(savedData);
+    return Array.isArray(parsedData) ? parsedData : (defaultValue === undefined ? [] : defaultValue);
+  } catch (error) {
+    return defaultValue === undefined ? [] : defaultValue;
+  }
+}
+
+function saveEVMSData(key, records) {
+  try {
+    localStorage.setItem(key, JSON.stringify(records));
+    return true;
+  } catch (error) {
+    alert("Could not save data in this browser. Please check browser storage settings.");
+    return false;
+  }
+}
+
 let users = [
   {
     id: 1,
@@ -40,6 +73,9 @@ let users = [
     dashboard: "event_manager_dashboard.html",
   },
 ];
+
+// Load previously registered users while keeping the sample accounts on first use.
+users = loadEVMSData(EVMS_KEYS.users, users);
 
 let complaints = [
   {
@@ -144,3 +180,13 @@ let vendorPrepTasks =
   { id: "T-001", vendorId: "U-1", booking: "Tanvir Hasan (Wedding)",  task: "Stage & Backdrop Assembly", workers: 4, hours: 3, priority: "Normal", status: "Pending" },
   { id: "T-002", vendorId: "U-1", booking: "Nusrat Jahan (Birthday)", task: "Camera Gear Setup",         workers: 2, hours: 2, priority: "Normal", status: "In Progress" }
 ];
+
+
+// These arrays are shared by client.html, menu-select.html, transportation.html and activities.html.
+let customerEvents = loadEVMSData(EVMS_KEYS.events);
+let menuSelections = loadEVMSData(EVMS_KEYS.menus);
+let transportBookings = loadEVMSData(EVMS_KEYS.transports);
+let activitySelections = loadEVMSData(EVMS_KEYS.activities);
+
+
+let clientSelections = [];

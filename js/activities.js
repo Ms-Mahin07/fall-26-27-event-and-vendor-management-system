@@ -1,5 +1,5 @@
 const sections = [];
-let activitySelections = [];
+
 let editingActivityIndex = -1;
 
 function showSection(sectionId) {
@@ -15,16 +15,8 @@ function showSection(sectionId) {
 }
 
 function getSelectedActivities() {
-  let boxes = document.querySelectorAll("input#activities");
-  let selected = [];
-  for (let i = 0; i < boxes.length; i++) {
-    if (boxes[i].checked) {
-      selected.push(boxes[i].nextSibling.textContent.trim());
-    }
-  }
-  return selected;
+  return getCheckedValues("activityItems");
 }
-
 function renderActivities() {
   let keyword = document.getElementById("activitySearch").value;
   let filter = document.getElementById("activityFilter").value;
@@ -33,14 +25,13 @@ function renderActivities() {
 
   for (let i = 0; i < activitySelections.length; i++) {
     let activity = activitySelections[i];
-    let matches = containsText(activity.id, keyword) ||
-                  containsText(activity.event, keyword) ||
+    let matches = containsText(activity.event, keyword) ||
                   containsText(activity.services.join(", "), keyword) ||
                   containsText(activity.option, keyword);
     let filterMatches = filter === "All" || activity.services.indexOf(filter) !== -1;
 
     if (matches && filterMatches) {
-      rows += "<tr><td>" + activity.id + "</td><td>" + activity.event + "</td>" +
+      rows += "<tr><td>" + activity.event + "</td>" +
         "<td>" + activity.services.join(", ") + "</td><td>" + activity.option + "</td>" +
         "<td>" + activity.date + "</td><td>" + activity.quantity + "</td><td>" +
         "<button type='button' class='btn btn-small' onclick='editActivity(" + i + ")'>Edit</button> " +
@@ -51,7 +42,7 @@ function renderActivities() {
   }
 
   if (shown === 0) {
-    rows = "<tr><td colspan='7' class='empty-row'>No activity selections found.</td></tr>";
+    rows = "<tr><td colspan='6' class='empty-row'>No activity selections found.</td></tr>";
   }
   document.getElementById("activityTableBody").innerHTML = rows;
 }
@@ -91,6 +82,7 @@ function saveActivity() {
       id: nextActivityId(), event: event, services: services,
       option: option, date: date, quantity: quantity, note: note
     });
+    saveEVMSData(EVMS_KEYS.activities, activitySelections);
     showMessage("activityMessage", "Activity selection was added successfully.", "success");
   } else {
     let activity = activitySelections[editingActivityIndex];
@@ -100,6 +92,7 @@ function saveActivity() {
     activity.date = date;
     activity.quantity = quantity;
     activity.note = note;
+    saveEVMSData(EVMS_KEYS.activities, activitySelections);
     showMessage("activityMessage", "Activity selection was updated.", "success");
   }
 
@@ -117,16 +110,16 @@ function editActivity(index) {
   editingActivityIndex = index;
   document.getElementById("eventType").value = activity.event;
 
-  let boxes = document.querySelectorAll("input#activities");
+  let boxes = document.getElementsByName("activityItems");
   for (let i = 0; i < boxes.length; i++) {
-    boxes[i].checked = activity.services.indexOf(boxes[i].nextSibling.textContent.trim()) !== -1;
+    boxes[i].checked = activity.services.indexOf(boxes[i].value) !== -1;
   }
 
   document.getElementById("activityOption").value = activity.option;
   document.getElementById("activityDate").value = activity.date;
   document.getElementById("activityQuantity").value = activity.quantity;
   document.getElementById("activityNote").value = activity.note;
-  document.getElementById("activityFormTitle").innerHTML = "Edit Activity " + activity.id;
+  document.getElementById("activityFormTitle").innerHTML = "Edit Activity";
   document.getElementById("activitySaveButton").value = "Update Selection";
   hideMessage("activityMessage");
 }
@@ -135,7 +128,8 @@ function deleteActivity(index) {
   let activity = activitySelections[index];
   if (confirm("Delete this activity selection?")) {
     activitySelections = removeAt(activitySelections, index);
-    showMessage("activityMessage", "Activity selection " + activity.id + " was deleted.", "info");
+    saveEVMSData(EVMS_KEYS.activities, activitySelections);
+    showMessage("activityMessage", "Activity selection was deleted.", "info");
     resetActivityForm();
     renderActivities();
   }

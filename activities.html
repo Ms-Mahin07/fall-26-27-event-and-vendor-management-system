@@ -22,10 +22,11 @@
 
   <nav class="topnav">
     <button type="button" id="nav-dashboardSection" onclick="showSection('dashboardSection')">Dashboard</button>
+    <button type="button" id="nav-eventsSection" onclick="showSection('eventsSection')">Create Event</button>
     <button type="button" id="nav-menuSection" onclick="showSection('menuSection')">Menu Selection</button>
     <button type="button" id="nav-activitiesSection" onclick="showSection('activitiesSection')">Activities
       Selection</button>
-    <button type="button" id="nav-transportationSection" onclick="showSection('transportatioSection')">Transportation
+    <button type="button" id="nav-transportationSection" onclick="showSection('transportationSection')">Transportation
       Management</button>
   </nav>
 
@@ -112,16 +113,17 @@
               <tr>
                 <td><label for="transportation">Transportation Category:</label></td>
                 <td>
-                  <input type="checkbox" id="activities" value="activities">Theme Decoration
-                  <input type="checkbox" id="activities" value="activities">Photography
-                  <input type="checkbox" id="activities" value="activities">Videography
-                  <input type="checkbox" id="activities" value="activities">Kids playing Zone
+                  <input type="checkbox" id="activity1" name="activityItems" value="Theme Decoration">Theme Decoration
+                  <input type="checkbox" id="activity2" name="activityItems" value="Photography">Photography
+                  <input type="checkbox" id="activity3" name="activityItems" value="Videography">Videography
+                  <input type="checkbox" id="activity4" name="activityItems" value="Kids playing Zone">Kids playing Zone
                   <br>
-                  <input type="checkbox" id="activities" value="activities">Sound System
-                  <input type="checkbox" id="activities" value="activities">LED Screen
-                  <input type="checkbox" id="activities" value="activities">Cake Customization
-                  <input type="checkbox" id="activities" value="activities">Stalls
-                  <input type="checkbox" id="activities" value="activities">Games
+                  <input type="checkbox" id="activity5" name="activityItems" value="Sound System">Sound System
+                  <input type="checkbox" id="activity6" name="activityItems" value="LED Screen">LED Screen
+                  <input type="checkbox" id="activity7" name="activityItems" value="Cake Customization">Cake
+                  Customization
+                  <input type="checkbox" id="activity8" name="activityItems" value="Stalls">Stalls
+                  <input type="checkbox" id="activity9" name="activityItems" value="Games">Games
                 </td>
               </tr>
               <tr>
@@ -166,7 +168,6 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Event</th>
                 <th>Service</th>
                 <th>Option</th>

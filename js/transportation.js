@@ -1,5 +1,5 @@
 const sections = [];
-let transportBookings = [];
+
 let editingTransportIndex = -1;
 
 function showSection(sectionId) {
@@ -15,16 +15,8 @@ function showSection(sectionId) {
 }
 
 function getSelectedVehicles() {
-  let boxes = document.querySelectorAll("input#transportation");
-  let selected = [];
-  for (let i = 0; i < boxes.length; i++) {
-    if (boxes[i].checked) {
-      selected.push(boxes[i].nextSibling.textContent.trim());
-    }
-  }
-  return selected;
+  return getCheckedValues("vehicles");
 }
-
 function renderTransportBookings() {
   let keyword = document.getElementById("transportSearch").value;
   let statusFilter = document.getElementById("transportStatusFilter").value;
@@ -33,17 +25,16 @@ function renderTransportBookings() {
 
   for (let i = 0; i < transportBookings.length; i++) {
     let booking = transportBookings[i];
-    let matches = containsText(booking.id, keyword) ||
-                  containsText(booking.event, keyword) ||
+    let matches = containsText(booking.event, keyword) ||
                   containsText(booking.vehicles.join(", "), keyword) ||
                   containsText(booking.pickup, keyword) ||
                   containsText(booking.drop, keyword);
     let statusMatches = statusFilter === "All" || booking.status === statusFilter;
 
     if (matches && statusMatches) {
-      rows += "<tr><td>" + booking.id + "</td><td>" + booking.event + "</td>" +
+      rows += "<tr><td>" + booking.event + "</td>" +
         "<td>" + booking.vehicles.join(", ") + "</td><td>" + booking.quantity + "</td>" +
-        "<td>" + booking.date + " " + booking.time + "</td><td>" + booking.pickup + "</td>" +
+        "<td>" + booking.date + "</td><td>" + booking.pickup + "</td>" +
         "<td>" + booking.drop + "</td><td>" + booking.status + "</td><td>" +
         "<button type='button' class='btn btn-small' onclick='editTransportBooking(" + i + ")'>Edit</button> " +
         "<button type='button' class='btn btn-small btn-danger' onclick='deleteTransportBooking(" + i + ")'>Delete</button>" +
@@ -53,7 +44,7 @@ function renderTransportBookings() {
   }
 
   if (shown === 0) {
-    rows = "<tr><td colspan='9' class='empty-row'>No transportation bookings found.</td></tr>";
+    rows = "<tr><td colspan='8' class='empty-row'>No transportation bookings found.</td></tr>";
   }
   document.getElementById("transportTableBody").innerHTML = rows;
 }
@@ -67,7 +58,6 @@ function saveTransportBooking() {
   let quantityText = document.getElementById("vehicleQuantity").value;
   let quantity = Number(quantityText);
   let date = document.getElementById("pickupDate").value;
-  let time = document.getElementById("pickupTime").value;
   let pickup = document.getElementById("pickupLocation").value.trim();
   let drop = document.getElementById("dropLocation").value.trim();
   let note = document.getElementById("transportNote").value.trim();
@@ -89,10 +79,6 @@ function saveTransportBooking() {
     showMessage("transportMessage", "Choose a valid pickup date (today or later).", "error");
     valid = false;
   }
-  if (time === "") {
-    showMessage("transportMessage", "Please select a pickup time.", "error");
-    valid = false;
-  }
   if (pickup.length < 3 || drop.length < 3) {
     showMessage("transportMessage", "Enter both pickup and drop-off locations.", "error");
     valid = false;
@@ -102,9 +88,10 @@ function saveTransportBooking() {
   if (editingTransportIndex === -1) {
     transportBookings.push({
       id: nextTransportId(), event: event, vehicles: vehicles,
-      quantity: quantity, date: date, time: time, pickup: pickup,
+      quantity: quantity, date: date, pickup: pickup,
       drop: drop, note: note, status: "Pending"
     });
+    saveEVMSData(EVMS_KEYS.transports, transportBookings);
     showMessage("transportMessage", "Transportation booking submitted. Status: Pending.", "success");
   } else {
     let booking = transportBookings[editingTransportIndex];
@@ -112,10 +99,10 @@ function saveTransportBooking() {
     booking.vehicles = vehicles;
     booking.quantity = quantity;
     booking.date = date;
-    booking.time = time;
     booking.pickup = pickup;
     booking.drop = drop;
     booking.note = note;
+    saveEVMSData(EVMS_KEYS.transports, transportBookings);
     showMessage("transportMessage", "Transportation booking was updated.", "success");
   }
 
@@ -133,27 +120,27 @@ function editTransportBooking(index) {
   editingTransportIndex = index;
   document.getElementById("eventType").value = booking.event;
 
-  let boxes = document.querySelectorAll("input#transportation");
+  let boxes = document.getElementsByName("vehicles");
   for (let i = 0; i < boxes.length; i++) {
-    boxes[i].checked = booking.vehicles.indexOf(boxes[i].nextSibling.textContent.trim()) !== -1;
+    boxes[i].checked = booking.vehicles.indexOf(boxes[i].value) !== -1;
   }
 
   document.getElementById("vehicleQuantity").value = booking.quantity;
   document.getElementById("pickupDate").value = booking.date;
-  document.getElementById("pickupTime").value = booking.time;
   document.getElementById("pickupLocation").value = booking.pickup;
   document.getElementById("dropLocation").value = booking.drop;
   document.getElementById("transportNote").value = booking.note;
-  document.getElementById("transportFormTitle").innerHTML = "Edit Booking " + booking.id;
+  document.getElementById("transportFormTitle").innerHTML = "Edit Booking";
   document.getElementById("transportSaveButton").value = "Update Booking";
   hideMessage("transportMessage");
 }
 
 function deleteTransportBooking(index) {
   let booking = transportBookings[index];
-  if (confirm("Delete transportation booking " + booking.id + "?")) {
+  if (confirm("Delete this transportation booking?")) {
     transportBookings = removeAt(transportBookings, index);
-    showMessage("transportMessage", "Booking " + booking.id + " was deleted.", "info");
+    saveEVMSData(EVMS_KEYS.transports, transportBookings);
+    showMessage("transportMessage", "Transportation booking was deleted.", "info");
     resetTransportForm();
     renderTransportBookings();
   }

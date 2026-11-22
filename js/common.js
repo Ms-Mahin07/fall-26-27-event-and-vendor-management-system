@@ -141,8 +141,6 @@ function vendorIsDigitsOnly(text) {
   return true;
 }
 
-
-//search... ignote lower or upper case..  if found show data
 function vendorContainsText(text, keyword) {
   return String(text).toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
 }
@@ -167,10 +165,175 @@ function vendorNextId(prefix, list) {
     }
   }
 
-  // 0 in front of the new id and add the prefix ir T-
   let newNumber = String(biggest + 1);
   while (newNumber.length < digits) {
     newNumber = "0" + newNumber;
   }
   return prefix + "-" + newNumber;
+}
+
+
+function containsText(value, keyword) {
+  return String(value || "").toLowerCase().indexOf(String(keyword || "").toLowerCase()) !== -1;
+}
+
+function removeAt(array, index) {
+  return array.slice(0, index).concat(array.slice(index + 1));
+}
+
+// Client form error helpers.
+function showError(fieldId, message) {
+  let errorBox = document.getElementById(fieldId + "Error");
+  if (errorBox !== null) {
+    errorBox.innerHTML = message;
+  }
+
+  let field = document.getElementById(fieldId);
+  if (field !== null) {
+    field.style.border = "2px solid red";
+  }
+}
+
+function clearError(fieldId) {
+  let errorBox = document.getElementById(fieldId + "Error");
+  if (errorBox !== null) {
+    errorBox.innerHTML = "";
+  }
+
+  let field = document.getElementById(fieldId);
+  if (field !== null) {
+    field.style.border = "";
+  }
+}
+
+function clearErrors(fieldIds) {
+  for (let i = 0; i < fieldIds.length; i++) {
+    clearError(fieldIds[i]);
+  }
+}
+
+// Client success/error message helpers.
+function showMessage(boxId, message, type) {
+  let box = document.getElementById(boxId);
+  if (box !== null) {
+    box.innerHTML = message;
+    box.className = "message " + (type || "");
+    box.style.display = "block";
+  }
+}
+
+function hideMessage(boxId) {
+  let box = document.getElementById(boxId);
+  if (box !== null) {
+    box.innerHTML = "";
+    box.className = "message";
+    box.style.display = "none";
+  }
+}
+
+// Read checked checkbox values, following the same pattern as vendorGetCheckedValues().
+function getCheckedValues(groupName) {
+  let boxes = document.getElementsByName(groupName);
+  let selected = [];
+
+  for (let i = 0; i < boxes.length; i++) {
+    if (boxes[i].checked) {
+      selected.push(boxes[i].value);
+    }
+  }
+  return selected;
+}
+
+function todayString() {
+  let date = new Date();
+  let month = String(date.getMonth() + 1).padStart(2, "0");
+  let day = String(date.getDate()).padStart(2, "0");
+  return date.getFullYear() + "-" + month + "-" + day;
+}
+
+function daysBetween(first, second) {
+  return Math.round(
+    (new Date(second + "T00:00:00") - new Date(first + "T00:00:00")) / 86400000
+  );
+}
+
+function isValidEmail(email) {
+  let atPosition = email.indexOf("@");
+  let dotPosition = email.indexOf(".", atPosition);
+
+  if (atPosition < 1) { return false; }
+  if (dotPosition < atPosition + 2) { return false; }
+  if (dotPosition === email.length - 1) { return false; }
+  return true;
+}
+
+function isDigitsOnly(value) {
+  if (value.length === 0) { return false; }
+
+  let digits = "0123456789";
+  for (let i = 0; i < value.length; i++) {
+    if (digits.indexOf(value[i]) === -1) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// Convert all client selections into one array of uniform objects.
+// The dashboard displays this combined array below its summary cards.
+function refreshClientSelections() {
+  clientSelections = [];
+
+  // Menu selections
+  for (let i = 0; i < menuSelections.length; i++) {
+    let item = menuSelections[i];
+    let foods = item.foods ? item.foods.slice() : [];
+
+    if (item.other !== undefined && item.other !== "") {
+      foods.push(item.other);
+    }
+
+    clientSelections.push({
+      id: item.id,
+      type: "Menu",
+      event: item.event || "",
+      selected: foods.join(", "),
+      categoryDate: item.category || "Regular Foods",
+      quantity: item.guests || "",
+      details: item.notes || ""
+    });
+  }
+
+  // Transportation bookings
+  for (let i = 0; i < transportBookings.length; i++) {
+    let item = transportBookings[i];
+
+    clientSelections.push({
+      id: item.id,
+      type: "Transportation",
+      event: item.event || "",
+      selected: item.vehicles ? item.vehicles.join(", ") : "",
+      categoryDate: item.date || "",
+      quantity: item.quantity || "",
+      details: (item.pickup || "") + " -- " + (item.drop || "") +
+        (item.note ? " | " + item.note : "")
+    });
+  }
+
+  // Activity selections
+  for (let i = 0; i < activitySelections.length; i++) {
+    let item = activitySelections[i];
+
+    clientSelections.push({
+      id: item.id,
+      type: "Activity",
+      event: item.event || "",
+      selected: item.services ? item.services.join(", ") : "",
+      categoryDate: item.date || "",
+      quantity: item.quantity || "",
+      details: (item.option || "") + (item.note ? " | " + item.note : "")
+    });
+  }
+
+  return clientSelections;
 }

@@ -98,6 +98,7 @@ function validateRegister() {
   };
 
   users.push(newClient);
+  saveEVMSData(EVMS_KEYS.users, users);
 
   showMessage(
     "registerMessage",

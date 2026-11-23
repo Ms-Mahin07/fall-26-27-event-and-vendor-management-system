@@ -1,5 +1,3 @@
-
-//vendor register
 // all user common field
 const vendorCommonFields = ["vendorFullName", "vendorEmail", "vendorPhone", "vendorNewUsername", "vendorNewPassword", "vendorConfirmPassword"];
 
@@ -10,11 +8,11 @@ const vendorBusinessFields = ["vendorBusinessName", "vendorCategory", "vendorAdd
 
 
 
-//validation
+//form onsubmit clear old error 
 function vendorValidateRegister() {
   vendorClearAllRegisterErrors();
 
-  // checks for vendor and vendor common
+  // check eroor and all error at once 
   let commonOk = vendorValidateCommon();
   let vendorOk = vendorValidateBusiness();
 
@@ -35,7 +33,7 @@ function vendorValidateRegister() {
     status: "Active"
   };
 
-  //vendor properties
+  //vendor extra properties and push in user in the list and confirmation text
   newUser.businessName = document.getElementById("vendorBusinessName").value.trim();
   newUser.category = document.getElementById("vendorCategory").value;
   newUser.address = document.getElementById("vendorAddress").value.trim();
@@ -53,14 +51,15 @@ function vendorValidateRegister() {
 
 
 
-  //clear form
+  //clear form and disable button and welcome
   document.getElementById("vendorRegisterForm").reset();
   vendorResetRegisterForm();
   return false;   
 }
 
 
-//all user check
+//all user check and all the form validation 
+
 function vendorValidateCommon() {
   let isValid = true;
 
@@ -71,28 +70,33 @@ function vendorValidateCommon() {
   let password = document.getElementById("vendorNewPassword").value;
   let confirmPassword = document.getElementById("vendorConfirmPassword").value;
 
-
-
   if (fullName.length < 3) 
   {
     vendorShowError("vendorFullName", "Full name must be at least 3 characters.");
     isValid = false;
   }
 
+
   if (vendorIsEmpty(email)) 
   {
     vendorShowError("vendorEmail", "Email is required.");
     isValid = false;
   } else if (vendorIsValidEmail(email) === false) 
+
+  
   
   {
     vendorShowError("vendorEmail", "Please enter a valid email address.");
     isValid = false;
   } else if (vendorIsTaken("email", email)) 
+
+
   {
     vendorShowError("vendorEmail", "An account with this email already exists.");
     isValid = false;
   }
+
+
 
   if (vendorIsDigitsOnly(phone) === false || phone.length !== 11 || phone.slice(0, 2) !== "01") 
   {
@@ -104,21 +108,28 @@ function vendorValidateCommon() {
   {
     vendorShowError("vendorNewUsername", "Username must be at least 4 characters.");
     isValid = false;
-  } else if (username.indexOf(" ") !== -1)
-   {
+  } 
+  
+  else if (username.indexOf(" ") !== -1)
+  {
     vendorShowError("vendorNewUsername", "Username cannot contain spaces.");
     isValid = false;
-  } else if (vendorIsTaken("username", username)) 
+  } 
+  
+  else if (vendorIsTaken("username", username)) 
   {
     vendorShowError("vendorNewUsername", "This username is already taken.");
     isValid = false;
   }
 
+
   if (password.length < 8) 
   {
     vendorShowError("vendorNewPassword", "Password must be at least 8 characters.");
     isValid = false;
-  } else if (vendorHasDigit(password) === false) 
+  } 
+  
+  else if (vendorHasDigit(password) === false) 
   {
     vendorShowError("vendorNewPassword", "Password must contain at least one digit.");
     isValid = false;
@@ -126,7 +137,7 @@ function vendorValidateCommon() {
 
   if (confirmPassword === "" || confirmPassword !== password) 
   {
-    vendorShowError("vendorConfirmPassword", "Password and Confirm Password must match.");
+  vendorShowError("vendorConfirmPassword", "Password and Confirm Password must match.");
     isValid = false;
   }
 
@@ -135,7 +146,7 @@ function vendorValidateCommon() {
 
 
 
-
+//vendor business details
 function vendorValidateBusiness() {
   let isValid = true;
   let businessName = document.getElementById("vendorBusinessName").value.trim();
@@ -165,8 +176,9 @@ function vendorValidateBusiness() {
 
 
 
-//if already have value
-function vendorIsTaken(property, value) {
+//check the vendor detils if it is already regestered
+function vendorIsTaken(property, value) 
+{
   for (const user of vendorUsers) {
     if (user[property] !== undefined && String(user[property]).toLowerCase() === value.toLowerCase()) {
       return true;
@@ -174,7 +186,7 @@ function vendorIsTaken(property, value) {
   }
   return false;
 }
-
+//check at least one digit
 function vendorHasDigit(text) {
   let digits = "0123456789";
   for (let i = 0; i < text.length; i++) {
@@ -191,13 +203,13 @@ function vendorToggleRegisterButton() {
   document.getElementById("vendorRegisterButton").disabled = !document.getElementById("vendorTerms").checked;
 }
 
+
+//clear form and button disable
 function vendorClearAllRegisterErrors() {
   vendorClearErrors(vendorCommonFields);
   vendorClearErrors(vendorBusinessFields);
 }
 
-
-//clear form and button disable
 function vendorResetRegisterForm() {
   vendorClearAllRegisterErrors();
   document.getElementById("vendorRegisterButton").disabled = true;

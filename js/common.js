@@ -1,14 +1,16 @@
 //admin
+let currentUser = null;
+
 function saveCurrentUser(user) {
-  localStorage.setItem("currentUser", JSON.stringify(user));
+  currentUser = user;
 }
 
 function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("currentUser"));
+  return currentUser;
 }
 
 function logout() {
-  localStorage.removeItem("currentUser");
+  currentUser = null;
   window.location.href = "login.html";
 }
 
@@ -27,8 +29,6 @@ function showSection(sectionId) {
   }
 }
 
-
-
 //vendor part
 //left navigation button click and find by id , show it and change make button blue
 function vendorShowSection(sectionId) {
@@ -46,12 +46,9 @@ function vendorShowSection(sectionId) {
   }
 }
 
-
-
 //red error button with border for any error if nothing is written in the input field like : Write the vendor name
 
-function vendorShowError(fieldId, message) 
-{
+function vendorShowError(fieldId, message) {
   document.getElementById(fieldId + "Error").innerHTML = message;
 
   let field = document.getElementById(fieldId);
@@ -61,75 +58,62 @@ function vendorShowError(fieldId, message)
 }
 
 //when something is written in  the input field clears the error....only for one error
-function vendorClearError(fieldId) 
-{
+function vendorClearError(fieldId) {
   document.getElementById(fieldId + "Error").innerHTML = "";
 
   let field = document.getElementById(fieldId);
   if (field != null) {
-    field.style.border = "";   // css black border
+    field.style.border = ""; // css black border
   }
 }
 
-
 //clear multiple errors Id's
-function vendorClearErrors(fieldIds) 
-{
+function vendorClearErrors(fieldIds) {
   for (let i = 0; i < fieldIds.length; i++) {
     vendorClearError(fieldIds[i]);
   }
 }
 
-
-//shows the error popup css gives color 
-function vendorShowMessage(boxId, text, type) 
-{
+//shows the error popup css gives color
+function vendorShowMessage(boxId, text, type) {
   let box = document.getElementById(boxId);
   box.innerHTML = text;
   box.className = "vendor-message vendor-" + type;
   box.style.display = "block";
 }
 
-//or the success when no error thus hides it 
+//or the success when no error thus hides it
 function vendorHideMessage(boxId) {
   document.getElementById(boxId).style.display = "none";
 }
 
-
-
-
-
 //validations
 
 //if nothing or only space is typed in the input field trims it and compare with empty string
-function vendorIsEmpty(value) 
-{
+function vendorIsEmpty(value) {
   return value.trim() === "";
 }
-
 
 // email vadilation
 function vendorIsValidEmail(email) {
   let atPosition = email.indexOf("@");
   let dotPosition = email.indexOf(".", atPosition);
 
-  if (atPosition < 1) 
-  {
-    return false;                       // @
+  if (atPosition < 1) {
+    return false; // @
   }
   if (dotPosition < atPosition + 2) {
-    return false;                       // no . after @
+    return false; // no . after @
   }
   if (dotPosition === email.length - 1) {
-    return false;                      // no . last character
+    return false; // no . last character
   }
-  return true;                         
+  return true;
 }
 
-
-// only all digits 0-9 allowed 
+// only all digits 0-9 allowed
 function vendorIsDigitsOnly(text) {
-  if (text.length === 0) {           
+  if (text.length === 0) {
     return false;
   }
   let digits = "0123456789";
@@ -145,20 +129,19 @@ function vendorContainsText(text, keyword) {
   return String(text).toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
 }
 
-
-//array 
+//array
 
 // return new arry if item empty and slice remove item
 function vendorRemoveAt(list, index) {
   return list.slice(0, index).concat(list.slice(index + 1));
 }
 
-//search shrough th existing ids..remove the letters is V- and search the highest number...then adds +1 to it to create new id 
+//search shrough th existing ids..remove the letters is V- and search the highest number...then adds +1 to it to create new id
 function vendorNextId(prefix, list) {
   let biggest = 0;
   let digits = 3;
   for (let i = 0; i < list.length; i++) {
-    let numberText = list[i].id.slice(prefix.length + 1);   
+    let numberText = list[i].id.slice(prefix.length + 1);
     digits = numberText.length;
     if (Number(numberText) > biggest) {
       biggest = Number(numberText);
@@ -172,9 +155,12 @@ function vendorNextId(prefix, list) {
   return prefix + "-" + newNumber;
 }
 
-
 function containsText(value, keyword) {
-  return String(value || "").toLowerCase().indexOf(String(keyword || "").toLowerCase()) !== -1;
+  return (
+    String(value || "")
+      .toLowerCase()
+      .indexOf(String(keyword || "").toLowerCase()) !== -1
+  );
 }
 
 function removeAt(array, index) {
@@ -253,7 +239,7 @@ function todayString() {
 
 function daysBetween(first, second) {
   return Math.round(
-    (new Date(second + "T00:00:00") - new Date(first + "T00:00:00")) / 86400000
+    (new Date(second + "T00:00:00") - new Date(first + "T00:00:00")) / 86400000,
   );
 }
 
@@ -261,14 +247,22 @@ function isValidEmail(email) {
   let atPosition = email.indexOf("@");
   let dotPosition = email.indexOf(".", atPosition);
 
-  if (atPosition < 1) { return false; }
-  if (dotPosition < atPosition + 2) { return false; }
-  if (dotPosition === email.length - 1) { return false; }
+  if (atPosition < 1) {
+    return false;
+  }
+  if (dotPosition < atPosition + 2) {
+    return false;
+  }
+  if (dotPosition === email.length - 1) {
+    return false;
+  }
   return true;
 }
 
 function isDigitsOnly(value) {
-  if (value.length === 0) { return false; }
+  if (value.length === 0) {
+    return false;
+  }
 
   let digits = "0123456789";
   for (let i = 0; i < value.length; i++) {
@@ -300,7 +294,7 @@ function refreshClientSelections() {
       selected: foods.join(", "),
       categoryDate: item.category || "Regular Foods",
       quantity: item.guests || "",
-      details: item.notes || ""
+      details: item.notes || "",
     });
   }
 
@@ -315,8 +309,11 @@ function refreshClientSelections() {
       selected: item.vehicles ? item.vehicles.join(", ") : "",
       categoryDate: item.date || "",
       quantity: item.quantity || "",
-      details: (item.pickup || "") + " -- " + (item.drop || "") +
-        (item.note ? " | " + item.note : "")
+      details:
+        (item.pickup || "") +
+        " -- " +
+        (item.drop || "") +
+        (item.note ? " | " + item.note : ""),
     });
   }
 
@@ -331,7 +328,7 @@ function refreshClientSelections() {
       selected: item.services ? item.services.join(", ") : "",
       categoryDate: item.date || "",
       quantity: item.quantity || "",
-      details: (item.option || "") + (item.note ? " | " + item.note : "")
+      details: (item.option || "") + (item.note ? " | " + item.note : ""),
     });
   }
 
